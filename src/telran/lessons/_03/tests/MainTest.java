@@ -1,9 +1,9 @@
-package telran.tests;
+package telran.lessons._03.tests;
 
+import telran.lessons._03.Main;
 import org.junit.jupiter.api.Test;
-import telran.Main;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class MainTest
 {
@@ -46,5 +46,42 @@ class MainTest
 		int[] expectedArray0 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
 		assertArrayEquals(expectedArray0, Main.addToSortedArray(array, 8));
+	}
+
+	/* tests for HW #3 */
+	@Test
+	void testUnion ()
+	{
+		int[] ar1 = {10, 30, -8, 20};
+		int[] ar2 = {0, -3, 7, 11};
+		int[] ar3 = {0, -8, 20, 10};
+		int[] exp1 = {10, 30, -8, 20, 0, -3, 7, 11};
+		int[] exp2 = {10, 30, -8, 20, 0};
+		assertArrayEquals(exp1, Main.union(ar1, ar2));
+		assertArrayEquals(exp2, Main.union(ar1, ar3));
+	}
+
+	@Test
+	void testIntersection ()
+	{
+		int[] ar1 = {10, 30, -8, 20};
+		int[] ar2 = {0, -3, 7, 11};
+		int[] ar3 = {0, -8, 20, 10};
+		int[] exp1 = {};
+		int[] exp2 = {10, -8, 20};
+		assertArrayEquals(exp1, Main.intersection(ar1, ar2));
+		assertArrayEquals(exp2, Main.intersection(ar1, ar3));
+	}
+
+	@Test
+	void testDifference ()
+	{
+		int[] ar1 = {10, 30, -8, 20};
+		int[] ar2 = {0, -3, 7, 11};
+		int[] ar3 = {0, -8, 20, 10};
+		int[] exp1 = {10, 30, -8, 20};
+		int[] exp2 = {30};
+		assertArrayEquals(exp1, Main.difference(ar1, ar2));
+		assertArrayEquals(exp2, Main.difference(ar1, ar3));
 	}
 }
