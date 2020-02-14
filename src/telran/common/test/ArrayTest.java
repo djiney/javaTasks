@@ -24,6 +24,21 @@ class ArrayTest
         assertNull(array.get(array.size()));
     }
 
+    @Test
+    void testAddByIndex()
+    {
+        Array array = new Array(4);
+        int[] numbers = {10, -8, 70, 75, 30};
+
+        for (int i = 0; i < numbers.length; i++) {
+            array.add(i, numbers[i]);
+        }
+
+        for (int i = 0; i < array.size(); i++) {
+            assertEquals(numbers[i], array.get(i));
+        }
+    }
+
     /**
      * Неконсистентность: при установке в NULL последнего элемента, size не изменяется.
      * Аналогичная ситуация с remove последнего элемента (и вытекающие проблемы, если выставить сперва

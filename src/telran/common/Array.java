@@ -31,12 +31,18 @@ public class Array
 
 	public boolean add(int index, Object element)
 	{
-		if (!this.isIndexValid(index)) {
+		if (index < 0 || index > this.size) {
 			return false;
 		}
 
+		if (index == this.size) {
+			this.increaseCapacity();
+		}
+
 		this.data[index] = element;
-		return false;
+		this.size++;
+
+		return true;
 	}
 
 	public Object get(int index)
