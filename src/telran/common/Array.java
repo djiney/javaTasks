@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class Array
 {
-	public static final int  DEFAULT_SIZE = 16;
-	public static final int  INCREMENT_INDEX = 2;
+	public static final int DEFAULT_SIZE = 16;
+	public static final int INCREMENT_INDEX = 2;
 
 	private Object[] data;
 	private int size = 0;
@@ -29,21 +29,22 @@ public class Array
 		this.data[size++] = element;
 	}
 
-	public void put(Object element, int index)
+	public boolean add(int index, Object element)
 	{
-		/* --- */
+		if (!this.isIndexValid(index)) {
+			return false;
+		}
+
+		this.data[index] = element;
+		return false;
 	}
 
 	public Object get(int index)
 	{
-		if (index >= this.size || index < 0) {
-			return null;
-		}
-
-		return this.data[index];
+		return this.isIndexValid(index) ? this.data[index] : null;
 	}
 
-	public int getSize()
+	public int size()
 	{
 		return size;
 	}
@@ -51,5 +52,34 @@ public class Array
 	private void increaseCapacity()
 	{
 		this.data = Arrays.copyOf(this.data, this.data.length * Array.INCREMENT_INDEX);
+	}
+
+	private boolean isIndexValid(int index)
+	{
+		return index >= 0 && index < this.size;
+	}
+
+	public Object set(int index, Object element)
+	{
+		if (!this.isIndexValid(index)) {
+			return null;
+		}
+
+		Object result = this.data[index];
+		this.data[index] = element;
+
+		return result;
+	}
+
+	public Object remove(int index)
+	{
+		if (!this.isIndexValid(index)) {
+			return null;
+		}
+
+		Object result = this.data[index];
+		this.data[index] = null;
+
+		return result;
 	}
 }
