@@ -39,8 +39,9 @@ public class Array
 			this.increaseCapacity();
 		}
 
-		this.data[index] = element;
-		this.size++;
+		System.arraycopy(this.data, index, this.data, index + 1, this.size - index);
+
+		this.data[size++] = element;
 
 		return true;
 	}
@@ -84,7 +85,9 @@ public class Array
 		}
 
 		Object result = this.data[index];
-		this.data[index] = null;
+
+		System.arraycopy(this.data, index, this.data, index - 1, this.size - index);
+		this.size--;
 
 		return result;
 	}
