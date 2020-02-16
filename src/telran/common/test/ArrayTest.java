@@ -61,5 +61,10 @@ class ArrayTest
         assertEquals(75, array.remove(indexRemove));
         assertEquals(30, array.get(indexRemove));
         assertEquals(4, array.size());
+
+        int firstIndexRemove = 0;
+        int expectedResult = 10;
+
+        assertEquals(expectedResult, array.remove(firstIndexRemove));
     }
 }

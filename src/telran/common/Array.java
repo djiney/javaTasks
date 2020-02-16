@@ -86,7 +86,7 @@ public class Array
 
 		Object result = this.data[index];
 
-		System.arraycopy(this.data, index, this.data, index - 1, this.size - index);
+		System.arraycopy(this.data, index + 1, this.data, index, this.data.length - index - 1);
 		this.size--;
 
 		return result;
