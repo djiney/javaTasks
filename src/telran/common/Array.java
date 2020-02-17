@@ -22,10 +22,7 @@ public class Array
 
 	public void add(Object element)
 	{
-		if (this.data.length == this.size) {
-			this.increaseCapacity();
-		}
-
+		this.checkCapacity();
 		this.data[size++] = element;
 	}
 
@@ -35,13 +32,12 @@ public class Array
 			return false;
 		}
 
-		if (index == this.size) {
-			this.increaseCapacity();
-		}
+		this.checkCapacity();
 
 		System.arraycopy(this.data, index, this.data, index + 1, this.size - index);
 
-		this.data[size++] = element;
+		this.data[index] = element;
+		size++;
 
 		return true;
 	}
@@ -54,6 +50,13 @@ public class Array
 	public int size()
 	{
 		return size;
+	}
+
+	private void checkCapacity()
+	{
+		if (this.data.length == this.size) {
+			this.increaseCapacity();
+		}
 	}
 
 	private void increaseCapacity()

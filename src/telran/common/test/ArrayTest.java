@@ -37,6 +37,15 @@ class ArrayTest
 		for (int i = 0; i < array.size(); i++) {
 			assertEquals(numbers[i], array.get(i));
 		}
+
+		for (int number : numbers) {
+			array.add(0, number);
+		}
+
+		int arrayIndex = 0;
+		for (int i = numbers.length - 1; i >= 0; i--) {
+			assertEquals(numbers[i], array.get(arrayIndex++));
+		}
 	}
 
 	@Test
