@@ -7,8 +7,8 @@ public class Array
 	public static final int DEFAULT_SIZE = 16;
 	public static final int INCREMENT_INDEX = 2;
 
-	private Object[] data;
-	private int size = 0;
+	protected Object[] data;
+	protected int size = 0;
 
 	public Array(int capacity)
 	{
@@ -52,19 +52,19 @@ public class Array
 		return size;
 	}
 
-	private void checkCapacity()
+	protected void checkCapacity()
 	{
 		if (this.data.length == this.size) {
 			this.increaseCapacity();
 		}
 	}
 
-	private void increaseCapacity()
+	protected void increaseCapacity()
 	{
 		this.data = Arrays.copyOf(this.data, this.data.length * Array.INCREMENT_INDEX);
 	}
 
-	private boolean isIndexValid(int index)
+	protected boolean isIndexValid(int index)
 	{
 		return index >= 0 && index < this.size;
 	}
@@ -93,5 +93,35 @@ public class Array
 		this.data[this.size] = null;
 
 		return result;
+	}
+
+	public int indexOf(Object value)
+	{
+		if (value == null) {
+			return -1;
+		}
+
+		for (int i = 0; i < this.size; i++) {
+			if (value.equals(this.data[i])) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	public int lastIndexOf(Object value)
+	{
+		if (value == null) {
+			return -1;
+		}
+
+		for (int i = this.size - 1; i >= 0; i--) {
+			if (value.equals(this.data[i])) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 }

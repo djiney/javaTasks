@@ -1,7 +1,6 @@
 package telran.additional._04_StackMax;
 
 import telran.common.Array;
-
 import java.util.*;
 
 public class StackMax

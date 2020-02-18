@@ -62,7 +62,6 @@ public class Main
             middle = (left + right) / 2;
         }
 
-        System.out.println(middle);
         return array[middle] == number ? middle : -left - 1;
     }
 }

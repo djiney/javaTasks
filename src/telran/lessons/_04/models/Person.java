@@ -2,7 +2,7 @@ package telran.lessons._04.models;
 
 import java.util.Objects;
 
-public class Person
+public class Person implements Comparable<Person>
 {
 	private long id;
 	private int birthYear;
@@ -57,5 +57,15 @@ public class Person
 	public int hashCode()
 	{
 		return Objects.hash(id, birthYear, name);
+	}
+
+	@Override
+	public int compareTo(Person person)
+	{
+		if (person.id == this.id) {
+			return 0;
+		}
+
+		return this.id > person.id ? 1 : -1;
 	}
 }
