@@ -30,7 +30,7 @@ class StackMaxTest {
     }
 
     @Test
-    void max()
+    void testMax()
     {
         StackMax stack = new StackMax(4);
         int[] numbers = {10, -8, 70, 75, 30};
@@ -52,5 +52,22 @@ class StackMaxTest {
         }
 
         assertThrows(NoSuchElementException.class, stack::max);
+    }
+
+    @Test
+    void testExtraMax()
+    {
+        StackMax stack = new StackMax(1);
+        int[] numbers = {20, 40, 40, 40};
+
+        for (int i = 0; i < numbers.length; i++) {
+            stack.push(numbers[i]);
+        }
+
+        stack.pop();
+        stack.pop();
+        stack.pop();
+
+        assertEquals(20, stack.max());
     }
 }
