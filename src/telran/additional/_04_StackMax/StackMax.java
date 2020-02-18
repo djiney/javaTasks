@@ -2,8 +2,7 @@ package telran.additional._04_StackMax;
 
 import telran.common.Array;
 
-import java.util.Arrays;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class StackMax
 {
@@ -12,22 +11,14 @@ public class StackMax
 
 	private int[] data;
 	private int size = 0;
-	private int max;
 
-	/*
+	private int maxValue = Integer.MIN_VALUE;
 
-	write class StackMax with the methods
-	 void push(int value) - adds value at the top of a stack,
-	 int pop() - removes a number from the top of a stack returns it (in the case of the empty stack it should throw "NoSuchElementException"),
-	 boolean isEmpty() - return true if a stack is empty,
-	 int max() - return maximal value of a stack (in the case of the empty stack it should throw "NoSuchElementException").
-
-	 All methods should be written with the complexity O[1]. You may apply the Java collections
-
-	* */
+	private Map<Integer, Integer> map;
 
 	public StackMax(int capacity)
 	{
+		this.map = new HashMap<>();
 		this.data = new int[capacity];
 	}
 
@@ -41,9 +32,10 @@ public class StackMax
 		this.checkCapacity();
 		this.data[size++] = value;
 
-		if (value > this.max) {
-		    this.max = value;
-        }
+		if (value > this.maxValue) {
+			this.map.put(value, this.maxValue);
+			this.maxValue = value;
+		}
 	}
 
 	public int pop()
@@ -54,6 +46,23 @@ public class StackMax
 
 		int result = this.data[--size];
 		this.data[size] = 0;
+
+		if (result == this.maxValue) {
+			this.maxValue = this.getPreviousMax();
+		}
+
+		return result;
+	}
+
+	private int getPreviousMax()
+	{
+		if (!this.map.containsKey(this.maxValue)) {
+			return Integer.MIN_VALUE;
+		}
+
+		int result = this.map.get(this.maxValue);
+		this.map.remove(this.maxValue);
+
 		return result;
 	}
 
@@ -68,7 +77,7 @@ public class StackMax
             throw new NoSuchElementException();
         }
 
-		return this.max;
+		return this.maxValue;
 	}
 
 	private void checkCapacity()
