@@ -66,8 +66,7 @@ class StackMaxTest {
 
         stack.pop();
         stack.pop();
-        stack.pop();
 
-        assertEquals(20, stack.max());
+        assertEquals(40, stack.max());
     }
 }

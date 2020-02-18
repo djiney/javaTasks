@@ -13,7 +13,7 @@ public class StackMax
 
 	private int maxValue = Integer.MIN_VALUE;
 
-	private Map<Integer, Integer> map;
+	private Map<Integer, int[]> map;
 
 	public StackMax(int capacity)
 	{
@@ -31,9 +31,8 @@ public class StackMax
 		this.checkCapacity();
 		this.data[size++] = value;
 
-		if (value > this.maxValue) {
-			this.map.put(value, this.maxValue);
-			this.maxValue = value;
+		if (value >= this.maxValue) {
+			this.addNewMax(value);
 		}
 	}
 
@@ -53,16 +52,34 @@ public class StackMax
 		return result;
 	}
 
+	private void addNewMax(int element)
+	{
+		int[] mapElement = {this.maxValue, 0};
+
+		if (this.map.containsKey(element)) {
+			mapElement = this.map.get(this.maxValue);
+		} else {
+			this.map.put(element, mapElement);
+		}
+
+		mapElement[1]++;
+
+		this.maxValue = element;
+	}
+
 	private int getPreviousMax()
 	{
 		if (!this.map.containsKey(this.maxValue)) {
 			return Integer.MIN_VALUE;
 		}
 
-		int result = this.map.get(this.maxValue);
-		this.map.remove(this.maxValue);
+		int[] result = this.map.get(this.maxValue);
+		if (--result[1] > 0) {
+			return this.maxValue;
+		}
 
-		return result;
+		this.map.remove(this.maxValue);
+		return result[0];
 	}
 
 	public boolean isEmpty()
