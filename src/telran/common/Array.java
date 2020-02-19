@@ -1,5 +1,7 @@
 package telran.common;
 
+import telran.common.comparators.NativeComparator;
+
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -150,27 +152,10 @@ public class Array<K>
 		return left > right ? -left - 1 : middle;
 	}
 
+	@SuppressWarnings("unchecked")
 	public int binarySearch(Comparable<K> pattern)
 	{
-		if (this.data.length < 1) {
-			return -1;
-		}
-
-		int left = 0;
-		int right = this.size - 1;
-		int middle = (left + right) / 2;
-
-		while (left <= right && !pattern.equals(this.data[middle]))
-		{
-			if (pattern.compareTo(this.data[middle]) < 0) {
-				right = middle - 1;
-			} else {
-				left = middle + 1;
-			}
-			middle = (left + right) / 2;
-		}
-
-		return left > right ? -left - 1 : middle;
+		return this.binarySearch((K) pattern, new NativeComparator<K>());
 	}
 
 	public void sort(Comparator<K> comparator)
@@ -194,30 +179,8 @@ public class Array<K>
 		} while (!flSort);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void sort()
 	{
-		boolean flSort;
-		int length = size;
-
-		Comparable<K> leftElement, rightElement;
-
-		do {
-			flSort = true;
-			length--;
-			for (int i = 0; i < length; i++)
-			{
-				leftElement = (Comparable<K>) this.data[i];
-				rightElement = (Comparable<K>) this.data[i + 1];
-
-				if (rightElement.compareTo((K) leftElement) < 0)
-				{
-					K tmp = this.data[i];
-					this.data[i] = this.data[i + 1];
-					this.data[i + 1] = tmp;
-					flSort = false;
-				}
-			}
-		} while (!flSort);
+		this.sort(new NativeComparator<K>());
 	}
 }
