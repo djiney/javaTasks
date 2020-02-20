@@ -1,35 +1,21 @@
 package telran.additional._04_StackMax;
 
-import telran.common.Array;
 import java.util.*;
 
-public class StackMax
+public class StackMax extends Stack
 {
-	public static final int DEFAULT_SIZE = 16;
-	public static final int INCREMENT_INDEX = 2;
-
-	private int[] data;
-	private int size = 0;
-
-	private int maxValue = Integer.MIN_VALUE;
-
-	private Map<Integer, int[]> map;
+	protected Stack stack;
+	protected int maxValue = Integer.MIN_VALUE;
 
 	public StackMax(int capacity)
 	{
-		this.map = new HashMap<>();
-		this.data = new int[capacity];
-	}
-
-	public StackMax()
-	{
-		this(Array.DEFAULT_SIZE);
+		super(capacity);
+		this.stack = new Stack();
 	}
 
 	public void push(int value)
 	{
-		this.checkCapacity();
-		this.data[size++] = value;
+		super.push(value);
 
 		if (value >= this.maxValue) {
 			this.addNewMax(value);
@@ -38,73 +24,32 @@ public class StackMax
 
 	public int pop()
 	{
-		if (this.isEmpty()) {
-			throw new NoSuchElementException();
-		}
-
-		int result = this.data[--size];
-		this.data[size] = 0;
+		int result = super.pop();
 
 		if (result == this.maxValue) {
-			this.maxValue = this.getPreviousMax();
+			this.setPreviousMax();
 		}
 
 		return result;
 	}
 
-	private void addNewMax(int element)
+	protected void addNewMax(int element)
 	{
-		int[] mapElement = {this.maxValue, 0};
-
-		if (this.map.containsKey(element)) {
-			mapElement = this.map.get(this.maxValue);
-		} else {
-			this.map.put(element, mapElement);
-		}
-
-		mapElement[1]++;
-
+		this.stack.push(this.maxValue);
 		this.maxValue = element;
 	}
 
-	private int getPreviousMax()
+	protected void setPreviousMax()
 	{
-		if (!this.map.containsKey(this.maxValue)) {
-			return Integer.MIN_VALUE;
-		}
-
-		int[] result = this.map.get(this.maxValue);
-		if (--result[1] > 0) {
-			return this.maxValue;
-		}
-
-		this.map.remove(this.maxValue);
-		return result[0];
-	}
-
-	public boolean isEmpty()
-	{
-		return this.size == 0;
+		this.maxValue = this.stack.pop();
 	}
 
 	public int max()
 	{
-        if (this.isEmpty()) {
-            throw new NoSuchElementException();
-        }
+		if (this.isEmpty()) {
+			throw new NoSuchElementException();
+		}
 
 		return this.maxValue;
-	}
-
-	private void checkCapacity()
-	{
-		if (this.data.length == this.size) {
-			this.increaseCapacity();
-		}
-	}
-
-	private void increaseCapacity()
-	{
-		this.data = Arrays.copyOf(this.data, this.data.length * Array.INCREMENT_INDEX);
 	}
 }
