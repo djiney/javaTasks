@@ -12,8 +12,8 @@ class ArrayTest
 	@Test
 	void testAddGetSize()
 	{
-		Array<Integer> array = new Array<Integer>(4);
-		int[] numbers = {10, -8, 70, 75, 30};
+		Array<Integer> array = new Array<>(4);
+		Integer[] numbers = {10, -8, 70, 75, 30};
 
 		for (int number : numbers) {
 			array.add(number);
@@ -29,8 +29,8 @@ class ArrayTest
 	@Test
 	void testAddByIndex()
 	{
-		Array<Integer> array = new Array<Integer>(4);
-		int[] numbers = {10, -8, 70, 75, 30};
+		Array<Integer> array = new Array<>(4);
+		Integer[] numbers = {10, -8, 70, 75, 30};
 
 		for (int i = 0; i < numbers.length; i++) {
 			array.add(i, numbers[i]);
@@ -53,9 +53,9 @@ class ArrayTest
 	@Test
 	void testRemoveSet()
 	{
-		Array<Integer> array = new Array<Integer>(4);
+		Array<Integer> array = new Array<>(4);
 
-		int[] numbers = {10, -8, 70, 75, 30};
+		Integer[] numbers = {10, -8, 70, 75, 30};
 
 		for (int number : numbers) {
 			array.add(number);
@@ -82,7 +82,7 @@ class ArrayTest
 	@Test
 	void testBinarySearchWithOutComparator()
 	{
-		Array<Person> array = new Array<Person>();
+		Array<Person> array = new Array<>();
 
 		String[] names = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
 
@@ -105,7 +105,7 @@ class ArrayTest
 	@Test
 	void testBinarySearchWithComparator()
 	{
-		Array<Person> array = new Array<Person>();
+		Array<Person> array = new Array<>();
 
 		String[] names = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
 
