@@ -4,6 +4,7 @@ import telran.common.comparators.NativeComparator;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 public class Array<K>
 {
@@ -182,5 +183,20 @@ public class Array<K>
 	public void sort()
 	{
 		this.sort(new NativeComparator<K>());
+	}
+
+	public Array<K> filter(Predicate<K> predicate)
+	{
+		Array<K> result = new Array<>(this.size);
+		K element;
+
+		for (int i = 0; i < this.size; i++) {
+			element = this.data[i];
+			if (predicate.test(element)) {
+				result.add(element);
+			}
+		}
+
+		return result;
 	}
 }

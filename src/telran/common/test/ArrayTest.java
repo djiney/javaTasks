@@ -124,4 +124,10 @@ class ArrayTest
 		int searchResult = array.binarySearch(person, new PersonAgeComparator());
 		assertEquals(person, array.get(searchResult));
 	}
+
+	@Test
+	public void testPredicate()
+	{
+
+	}
 }
