@@ -2,6 +2,9 @@ package telran.common.test;
 
 import org.junit.jupiter.api.Test;
 import telran.common.Array;
+import telran.common.comparators.TrickySortingIntComparator;
+import telran.common.predicates.EvenNumbersPredicate;
+import telran.common.predicates.LongStringPredicate;
 import telran.lessons._04.models.Person;
 import telran.lessons._04.models.PersonAgeComparator;
 
@@ -126,8 +129,57 @@ class ArrayTest
 	}
 
 	@Test
-	public void testPredicate()
+	public void testRemoveIfPredicate()
 	{
+		Array<String> array = new Array<>();
+		String[] strings = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
+		for (String string : strings) {
+			array.add(string);
+		}
 
+		String[] filteredStrings = {"sit", "amet", "elit"};
+
+		assertTrue(array.removeIf(new LongStringPredicate()));
+		assertFalse(array.removeIf(new LongStringPredicate()));
+
+		for (int i = 0; i < filteredStrings.length; i++) {
+			assertEquals(filteredStrings[i], array.get(i));
+		}
+	}
+
+	@Test
+	public void testFilter()
+	{
+		Array<Integer> array = new Array<>();
+		Integer[] numbers = {10, -8, 70, 75, 30};
+		for (int number : numbers) {
+			array.add(number);
+		}
+
+		Integer[] filteredNumbers = {10, -8, 70, 30};
+		Array<Integer> filteredArray = array.filter(new EvenNumbersPredicate());
+
+		for (int i = 0; i < filteredNumbers.length; i++) {
+			assertEquals(filteredNumbers[i], filteredArray.get(i));
+		}
+	}
+
+	@Test
+	public void testCustomEvenOddComparator()
+	{
+		Array<Integer> array = new Array<>();
+
+		Integer[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+		for (int number : numbers) {
+			array.add(number);
+		}
+
+		array.sort(new TrickySortingIntComparator());
+
+		Integer[] sortedNumbers = {1, 3, 5, 7, 9, 10, 8, 6, 4, 2};
+		for (int i = 0; i < sortedNumbers.length; i++) {
+			assertEquals(sortedNumbers[i], array.get(i));
+		}
 	}
 }

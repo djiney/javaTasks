@@ -199,4 +199,18 @@ public class Array<K>
 
 		return result;
 	}
+
+	public boolean removeIf(Predicate<K> predicate)
+	{
+		boolean result = false;
+
+		for (int i = 0; i < this.size; i++) {
+			if (predicate.test(this.data[i])) {
+				this.remove(i--);
+				result = true;
+			}
+		}
+
+		return result;
+	}
 }
