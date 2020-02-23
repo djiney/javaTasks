@@ -38,10 +38,12 @@ public class ArrayInt
 
         this.data[index] = value;
 
-        if (value == 0) {
-        	this.map.put(index, true);
-		} else {
-			this.map.remove(index);
+        if (defaultValue != 0) {
+			if (value == 0) {
+				this.map.put(index, true);
+			} else {
+				this.map.remove(index);
+			}
 		}
 	}
 
@@ -49,7 +51,7 @@ public class ArrayInt
 	{
         this.checkIndex(index);
 
-        if (this.map.containsKey(index)) {
+        if (!this.map.isEmpty() && this.map.containsKey(index)) {
         	return 0;
 		}
 
