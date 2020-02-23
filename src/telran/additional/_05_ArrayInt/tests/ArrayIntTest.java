@@ -38,6 +38,34 @@ class ArrayIntTest
 	}
 
 	@Test
+	void testAfterReset()
+	{
+		ArrayInt array = new ArrayInt(10);
+
+		for (int i = 0; i < array.size(); i++) {
+			assertEquals(0, array.get(i));
+		}
+
+		int number = 888;
+		array.setAll(number);
+
+		for (int i = 0; i < array.size(); i++) {
+			assertEquals(number, array.get(i));
+		}
+
+		int setIndex = 6;
+		int setValue = 0;
+
+		array.set(setIndex, setValue);
+		assertEquals(setValue, array.get(setIndex));
+
+		int setAnotherValue = 43535;
+
+		array.set(setIndex, setAnotherValue);
+		assertEquals(setAnotherValue, array.get(setIndex));
+	}
+
+	@Test
 	public void testEdges()
 	{
 		ArrayInt array = new ArrayInt(10);

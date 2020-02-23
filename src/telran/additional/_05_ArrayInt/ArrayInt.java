@@ -1,19 +1,22 @@
 package telran.additional._05_ArrayInt;
 
+import java.util.HashMap;
+
 public class ArrayInt
 {
 	private int size;
 	private int[] data;
 
-	private boolean[] indexArray;
-	private int defaultValue;
+	private HashMap<Integer, Boolean> map;
+
+	private int defaultValue = 0;
 
 	public ArrayInt(int length)
 	{
 	    this.size = length;
-		this.data = new int[length];
+		this.data = new int[this.size];
 
-        this.indexArray = new boolean[length];
+		this.map = new HashMap<>();
 	}
 
 	public int size()
@@ -23,8 +26,10 @@ public class ArrayInt
 
 	public void setAll(int number)
 	{
-        this.indexArray = new boolean[this.size];
+        this.data = new int[this.size];
         this.defaultValue = number;
+
+        this.map.clear();
     }
 
 	public void set(int index, int value)
@@ -32,14 +37,23 @@ public class ArrayInt
 		this.checkIndex(index);
 
         this.data[index] = value;
-        this.indexArray[index] = true;
+
+        if (value == 0) {
+        	this.map.put(index, true);
+		} else {
+			this.map.remove(index);
+		}
 	}
 
 	public int get(int index)
 	{
         this.checkIndex(index);
 
-		return this.indexArray[index] ? this.data[index] : this.defaultValue;
+        if (this.map.containsKey(index)) {
+        	return 0;
+		}
+
+		return this.data[index] == 0 ? this.defaultValue : this.data[index];
 	}
 
 	private void checkIndex(int index) throws ArrayIndexOutOfBoundsException
