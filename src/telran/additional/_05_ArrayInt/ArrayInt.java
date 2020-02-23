@@ -13,32 +13,32 @@ public class ArrayInt
 
 	public ArrayInt(int length)
 	{
-	    this.size = length;
+		this.size = length;
 		this.data = new int[this.size];
 
 		this.map = new HashMap<>();
 	}
 
 	public int size()
-    {
-        return this.size;
-    }
+	{
+		return this.size;
+	}
 
 	public void setAll(int number)
 	{
-        this.data = new int[this.size];
-        this.defaultValue = number;
+		this.data = new int[this.size];
+		this.defaultValue = number;
 
-        this.map.clear();
-    }
+		this.map.clear();
+	}
 
 	public void set(int index, int value)
 	{
 		this.checkIndex(index);
 
-        this.data[index] = value;
+		this.data[index] = value;
 
-        if (defaultValue != 0) {
+		if (defaultValue != 0) {
 			if (value == 0) {
 				this.map.put(index, true);
 			} else {
@@ -49,10 +49,10 @@ public class ArrayInt
 
 	public int get(int index)
 	{
-        this.checkIndex(index);
+		this.checkIndex(index);
 
-        if (!this.map.isEmpty() && this.map.containsKey(index)) {
-        	return 0;
+		if (!this.map.isEmpty() && this.map.containsKey(index)) {
+			return 0;
 		}
 
 		return this.data[index] == 0 ? this.defaultValue : this.data[index];
@@ -60,8 +60,8 @@ public class ArrayInt
 
 	private void checkIndex(int index) throws ArrayIndexOutOfBoundsException
 	{
-	    if (index < 0 || index > this.size) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
+		if (index < 0 || index > this.size) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
 	}
 }
