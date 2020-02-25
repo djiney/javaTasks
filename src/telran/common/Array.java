@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
+@SuppressWarnings("unchecked")
 public class Array<K>
 {
 	public static final int DEFAULT_SIZE = 16;
@@ -16,7 +17,6 @@ public class Array<K>
 
 	public Array(int capacity)
 	{
-		//noinspection unchecked
 		this.data = (K[]) new Object[capacity];
 	}
 
@@ -153,7 +153,6 @@ public class Array<K>
 		return left > right ? -left - 1 : middle;
 	}
 
-	@SuppressWarnings("unchecked")
 	public int binarySearch(Comparable<K> pattern)
 	{
 		return this.binarySearch((K) pattern, new NativeComparator<>());
@@ -205,7 +204,6 @@ public class Array<K>
 		int length = this.size;
 		this.size = 0;
 
-		//noinspection unchecked
 		K[] newArray = (K[]) new Object[this.data.length];
 
 		for (int i = 0; i < length; i++) {
