@@ -83,6 +83,25 @@ class ArrayTest
 	}
 
 	@Test
+	void testRemoveByValue()
+	{
+		Array<Person> array = new Array<>();
+
+		String[] names = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
+
+		for (int i = 0; i < names.length; i++) {
+			array.add(new Person((i + 1) * 2, 1990 - i, names[i]));
+		}
+
+		Person person = new Person(7, 1958, "TestPerson");
+		array.add(person);
+
+		assertEquals(person, array.remove(person));
+		assertTrue(array.indexOf(person) < 0);
+
+	}
+
+	@Test
 	void testBinarySearchWithOutComparator()
 	{
 		Array<Person> array = new Array<>();

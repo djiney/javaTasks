@@ -156,7 +156,7 @@ public class Array<K>
 	@SuppressWarnings("unchecked")
 	public int binarySearch(Comparable<K> pattern)
 	{
-		return this.binarySearch((K) pattern, new NativeComparator<K>());
+		return this.binarySearch((K) pattern, new NativeComparator<>());
 	}
 
 	public void sort(Comparator<K> comparator)
@@ -182,7 +182,7 @@ public class Array<K>
 
 	public void sort()
 	{
-		this.sort(new NativeComparator<K>());
+		this.sort(new NativeComparator<>());
 	}
 
 	public Array<K> filter(Predicate<K> predicate)
@@ -216,5 +216,12 @@ public class Array<K>
 
 		this.data = newArray;
 		return length > size;
+	}
+
+	public K remove(K pattern)
+	{
+		return this.remove(
+			  this.indexOf(pattern)
+		);
 	}
 }
