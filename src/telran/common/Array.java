@@ -204,13 +204,21 @@ public class Array<K>
 	{
 		boolean result = false;
 
-		for (int i = 0; i < this.size; i++) {
-			if (predicate.test(this.data[i])) {
-				this.remove(i--);
+		int length = this.size;
+		this.size = 0;
+
+		//noinspection unchecked
+		K[] newArray = (K[]) new Object[this.data.length];
+
+		for (int i = 0; i < length; i++) {
+			if (!predicate.test(this.data[i])) {
+				newArray[this.size++] = this.data[i];
+			} else {
 				result = true;
 			}
 		}
 
+		this.data = newArray;
 		return result;
 	}
 }

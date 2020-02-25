@@ -66,6 +66,30 @@ class ArrayIntTest
 	}
 
 	@Test
+	void testAfterTwice()
+	{
+		ArrayInt array = new ArrayInt(10);
+
+		for (int i = 0; i < array.size(); i++) {
+			assertEquals(0, array.get(i));
+		}
+
+		int number = 888;
+		array.setAll(number);
+
+		for (int i = 0; i < array.size(); i++) {
+			assertEquals(number, array.get(i));
+		}
+
+		number = 0;
+		array.setAll(number);
+
+		for (int i = 0; i < array.size(); i++) {
+			assertEquals(number, array.get(i));
+		}
+	}
+
+	@Test
 	public void testEdges()
 	{
 		ArrayInt array = new ArrayInt(10);
