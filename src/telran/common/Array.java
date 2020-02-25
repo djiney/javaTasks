@@ -155,7 +155,7 @@ public class Array<K>
 
 	public int binarySearch(Comparable<K> pattern)
 	{
-		return this.binarySearch((K) pattern, new NativeComparator<>());
+		return this.binarySearch((K) pattern, (Comparator<K>) Comparator.naturalOrder());
 	}
 
 	public void sort(Comparator<K> comparator)
@@ -181,7 +181,7 @@ public class Array<K>
 
 	public void sort()
 	{
-		this.sort(new NativeComparator<>());
+		this.sort((Comparator<K>) Comparator.naturalOrder());
 	}
 
 	public Array<K> filter(Predicate<K> predicate)
