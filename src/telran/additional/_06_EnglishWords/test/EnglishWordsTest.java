@@ -29,6 +29,15 @@ class EnglishWordsTest
 	}
 
 	@Test
+	void testAllWords()
+	{
+		EnglishWords dictionary = new EnglishWords();
+		List result = dictionary.getWords("");
+
+		assertEquals(result.getItemCount(), dictionary.getWordsCount());
+	}
+
+	@Test
 	void testNonExisting()
 	{
 		EnglishWords dictionary = new EnglishWords();
@@ -36,7 +45,5 @@ class EnglishWordsTest
 
 		List expectedResult = new List();
 		assertEquals(expectedResult.getItemCount(), result.getItemCount());
-
-        assertThrows(UnsupportedOperationException.class, () -> dictionary.getWords(""));
 	}
 }

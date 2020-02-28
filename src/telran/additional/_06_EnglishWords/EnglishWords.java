@@ -37,11 +37,12 @@ public class EnglishWords
 
 	public List getWords(String prefix)
 	{
-		if (prefix.length() == 0) {
-			throw new UnsupportedOperationException();
-		}
+		return this.mainNode.search(prefix);
+	}
 
-		return this.searchByPrefix(prefix);
+	public int getWordsCount()
+	{
+		return this.mainNode.getWordsCount();
 	}
 
 	private void loadVocabulary()
@@ -62,10 +63,5 @@ public class EnglishWords
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-	}
-
-	public List searchByPrefix(String prefix)
-	{
-		return this.mainNode.search(prefix);
 	}
 }

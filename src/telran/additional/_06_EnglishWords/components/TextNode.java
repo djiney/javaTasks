@@ -24,6 +24,11 @@ public class TextNode
 		return this.search(prefix, 0);
 	}
 
+	public int getWordsCount()
+	{
+		return this.words.getItemCount();
+	}
+
 	private void addWord(String word, int depth)
 	{
 		if (word == null) {
