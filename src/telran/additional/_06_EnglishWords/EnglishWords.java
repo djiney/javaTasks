@@ -1,5 +1,7 @@
 package telran.additional._06_EnglishWords;
 
+import telran.additional._06_EnglishWords.components.TextNode;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,68 +17,22 @@ import java.nio.file.Paths;
  * returning List of words beginning with the given prefix.
  *
  * The data structure and the method should provide the least complexity
+ *
+ * Complexity of getting element by index from List is O[N],
+ * but even if you use regular array your solution doesn't provide most effective search.
+ * (1) method startWith takes a time for long prefixes
+ * (2) There may be a lot of the words for short prefix so the loop of the first word searching may take a lot time
+ *
  */
 public class EnglishWords
 {
 	private static final String WORDS_PATH = "./files/dictionary.csv";
 
-	private List vocabulary;
+	private TextNode mainNode;
 
 	public EnglishWords()
 	{
 		this.loadVocabulary();
-	}
-
-	private void loadVocabulary()
-	{
-		this.vocabulary = new List();
-
-		Path pathToFile = Paths.get(EnglishWords.WORDS_PATH);
-		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII))
-		{
-			String line = br.readLine();
-
-			while (line != null)
-			{
-				this.vocabulary.add(line);
-				line = br.readLine();
-			}
-
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-	}
-
-	private int getFirstIndex(String prefix)
-	{
-		if (this.vocabulary.getItemCount() < 1) {
-			return -1;
-		}
-
-		int left = 0;
-		int right = this.vocabulary.getItemCount() - 1;
-		int middle = (left + right) / 2;
-
-		while (left <= right && !this.vocabulary.getItem(middle).startsWith(prefix))
-		{
-			if (prefix.compareTo(this.vocabulary.getItem(middle)) < 0) {
-				right = middle - 1;
-			} else {
-				left = middle + 1;
-			}
-
-			middle = (left + right) / 2;
-		}
-
-		if (left > right) {
-			return -left - 1;
-		}
-
-		while (middle >= 0 && this.vocabulary.getItem(middle).startsWith(prefix)) {
-			middle--;
-		};
-
-		return ++middle;
 	}
 
 	public List getWords(String prefix)
@@ -85,17 +41,31 @@ public class EnglishWords
 			throw new UnsupportedOperationException();
 		}
 
-		List list = new List();
-		int index = this.getFirstIndex(prefix);
+		return this.searchByPrefix(prefix);
+	}
 
-		if (index < 0) {
-			return list;
+	private void loadVocabulary()
+	{
+		this.mainNode = new TextNode();
+
+		Path pathToFile = Paths.get(EnglishWords.WORDS_PATH);
+		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII))
+		{
+			String line = br.readLine();
+
+			while (line != null)
+			{
+				line = br.readLine();
+				this.mainNode.addWord(line);
+			}
+
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
+	}
 
-		while (this.vocabulary.getItem(index).startsWith(prefix)) {
-			list.add(this.vocabulary.getItem(index++));
-		}
-
-		return list;
+	public List searchByPrefix(String prefix)
+	{
+		return this.mainNode.search(prefix);
 	}
 }
