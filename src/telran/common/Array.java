@@ -1,13 +1,15 @@
 package telran.common;
 
-import telran.common.comparators.NativeComparator;
+import org.jetbrains.annotations.NotNull;
+import telran.common.interfaces.IndexedList;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
-public class Array<K>
+public class Array<K> implements IndexedList<K>
 {
 	public static final int DEFAULT_SIZE = 16;
 	public static final int INCREMENT_INDEX = 2;
@@ -187,12 +189,10 @@ public class Array<K>
 	public Array<K> filter(Predicate<K> predicate)
 	{
 		Array<K> result = new Array<>(this.size);
-		K element;
 
 		for (int i = 0; i < this.size; i++) {
-			element = this.data[i];
-			if (predicate.test(element)) {
-				result.add(element);
+			if (predicate.test(this.data[i])) {
+				result.add(this.data[i]);
 			}
 		}
 
@@ -221,5 +221,35 @@ public class Array<K>
 		return this.remove(
 			  this.indexOf(pattern)
 		);
+	}
+
+	@NotNull
+	@Override
+	public Iterator<K> iterator()
+	{
+		return new ArrayIterator();
+	}
+
+	private class ArrayIterator implements Iterator<K>
+	{
+		int currentIndex = 0;
+
+		@Override
+		public boolean hasNext()
+		{
+			return this.currentIndex < Array.this.size;
+		}
+
+		@Override
+		public K next()
+		{
+			return Array.this.data[currentIndex++];
+		}
+
+		@Override
+		public void remove()
+		{
+			Array.this.remove(--currentIndex);
+		}
 	}
 }
