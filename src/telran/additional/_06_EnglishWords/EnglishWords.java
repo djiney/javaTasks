@@ -56,8 +56,8 @@ public class EnglishWords
 
 			while (line != null)
 			{
-				line = br.readLine();
 				this.mainNode.addWord(line);
+				line = br.readLine();
 			}
 
 		} catch (IOException ioe) {

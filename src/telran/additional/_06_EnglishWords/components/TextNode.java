@@ -1,5 +1,7 @@
 package telran.additional._06_EnglishWords.components;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.awt.*;
 
@@ -29,12 +31,8 @@ public class TextNode
 		return this.words.getItemCount();
 	}
 
-	private void addWord(String word, int depth)
+	private void addWord(@NotNull String word, int depth)
 	{
-		if (word == null) {
-			return;
-		}
-
 		this.words.add(word);
 
 		if (depth == word.length()) {
@@ -55,7 +53,7 @@ public class TextNode
 		node.addWord(word, depth + 1);
 	}
 
-	private List search(String prefix, int depth)
+	private List search(@NotNull String prefix, int depth)
 	{
 		if (depth == prefix.length()) {
 			return this.words;
