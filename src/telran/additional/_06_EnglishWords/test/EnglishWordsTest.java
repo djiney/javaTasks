@@ -3,7 +3,8 @@ package telran.additional._06_EnglishWords.test;
 import org.junit.jupiter.api.Test;
 import telran.additional._06_EnglishWords.EnglishWords;
 
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,18 +14,15 @@ class EnglishWordsTest
 	void testExisting()
 	{
 		EnglishWords dictionary = new EnglishWords();
-		List result = dictionary.getWords("som");
+		ArrayList<String> result = dictionary.getWords("som");
 
-		List expectedResult = new List();
 		String[] words = {"some", "somebody", "someone", "something", "sometimes"};
-		for (String value : words) {
-			expectedResult.add(value);
-		}
+		ArrayList<String> expectedResult = new ArrayList<>(Arrays.asList(words));
 
-		assertEquals(expectedResult.getItemCount(), result.getItemCount());
+		assertEquals(expectedResult.size(), result.size());
 
-		for (int i = 0; i < expectedResult.getItemCount(); i++) {
-			assertEquals(result.getItem(i), expectedResult.getItem(i));
+		for (int i = 0; i < expectedResult.size(); i++) {
+			assertEquals(result.get(i), expectedResult.get(i));
 		}
 	}
 
@@ -32,18 +30,17 @@ class EnglishWordsTest
 	void testAllWords()
 	{
 		EnglishWords dictionary = new EnglishWords();
-		List result = dictionary.getWords("");
+		ArrayList<String> result = dictionary.getWords("");
 
-		assertEquals(result.getItemCount(), dictionary.getWordsCount());
+		assertEquals(result.size(), dictionary.getWordsCount());
 	}
 
 	@Test
 	void testNonExisting()
 	{
 		EnglishWords dictionary = new EnglishWords();
-		List result = dictionary.getWords("pferdamm");
+		ArrayList<String> result = dictionary.getWords("pferdamm");
 
-		List expectedResult = new List();
-		assertEquals(expectedResult.getItemCount(), result.getItemCount());
+		assertEquals(0, result.size());
 	}
 }

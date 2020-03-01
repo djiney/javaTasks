@@ -1,6 +1,5 @@
 package telran.common;
 
-import org.jetbrains.annotations.NotNull;
 import telran.common.interfaces.IndexedList;
 
 import java.util.Arrays;
@@ -223,7 +222,6 @@ public class Array<K> implements IndexedList<K>
 		);
 	}
 
-	@NotNull
 	@Override
 	public Iterator<K> iterator()
 	{

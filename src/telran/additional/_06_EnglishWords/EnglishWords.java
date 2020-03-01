@@ -1,14 +1,14 @@
 package telran.additional._06_EnglishWords;
 
-import telran.additional._06_EnglishWords.components.TextNode;
-
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Develop class EnglishWords with method:
@@ -28,26 +28,27 @@ public class EnglishWords
 {
 	private static final String WORDS_PATH = "./files/dictionary.csv";
 
-	private TextNode mainNode;
+	private TreeSet<String> treeSet;
 
 	public EnglishWords()
 	{
 		this.loadVocabulary();
 	}
 
-	public List getWords(String prefix)
+	public ArrayList<String> getWords(String prefix)
 	{
-		return this.mainNode.search(prefix);
+		SortedSet<String> set = treeSet.subSet(prefix, prefix + Character.MAX_VALUE);
+		return new ArrayList<>(set);
 	}
 
 	public int getWordsCount()
 	{
-		return this.mainNode.getWordsCount();
+		return this.treeSet.size();
 	}
 
 	private void loadVocabulary()
 	{
-		this.mainNode = new TextNode();
+		this.treeSet = new TreeSet<>();
 
 		Path pathToFile = Paths.get(EnglishWords.WORDS_PATH);
 		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII))
@@ -56,7 +57,7 @@ public class EnglishWords
 
 			while (line != null)
 			{
-				this.mainNode.addWord(line);
+				this.treeSet.add(line);
 				line = br.readLine();
 			}
 
