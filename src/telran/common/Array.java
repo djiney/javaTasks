@@ -16,6 +16,8 @@ public class Array<K> implements IndexedList<K>
 	protected K[] data;
 	protected int size = 0;
 
+	private Predicate<K> predicate;
+
 	public Array(int capacity)
 	{
 		this.data = (K[]) new Object[capacity];
@@ -24,6 +26,25 @@ public class Array<K> implements IndexedList<K>
 	public Array()
 	{
 		this(Array.DEFAULT_SIZE);
+	}
+
+	public Array(K[] initialData)
+	{
+		this();
+
+		for (K value : initialData) {
+			this.add(value);
+		}
+	}
+
+	public void setPredicate(Predicate<K> predicate)
+	{
+		this.predicate = predicate;
+	}
+
+	public void resetPredicate()
+	{
+		this.setPredicate(null);
 	}
 
 	public void add(K element)
@@ -225,23 +246,42 @@ public class Array<K> implements IndexedList<K>
 	@Override
 	public Iterator<K> iterator()
 	{
-		return new ArrayIterator();
+		return new ArrayIterator(this.predicate);
 	}
 
 	private class ArrayIterator implements Iterator<K>
 	{
 		int currentIndex = 0;
+		Predicate<K> predicate;
+
+		ArrayIterator(Predicate<K> predicate)
+		{
+			if (predicate == null) {
+				predicate = k -> true;
+			}
+
+			this.predicate = predicate;
+		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return this.currentIndex < Array.this.size;
+			while (checkIndex() && !predicate.test(data[currentIndex])) {
+				currentIndex++;
+			}
+
+			return checkIndex();
+		}
+
+		private boolean checkIndex()
+		{
+			return currentIndex < size;
 		}
 
 		@Override
 		public K next()
 		{
-			return Array.this.data[currentIndex++];
+			return data[currentIndex++];
 		}
 
 		@Override

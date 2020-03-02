@@ -253,4 +253,34 @@ class ArrayTest
 			assertEquals(expectedNumbers[index++], value);
 		}
 	}
+
+	@Test
+	public void testIterablePredicate()
+	{
+		Integer[] initialNumbers = {10, -8, 70, 75, 10, 30, 77, 77, 30};
+		Array<Integer> array = new Array<>(initialNumbers);
+
+		array.setPredicate(new EvenNumbersPredicate());
+
+		Integer[] expectedNumbers = {10, -8, 70, 10, 30, 30};
+
+		Iterator<Integer> iterator = array.iterator();
+		Integer iteratedValue;
+
+		int index = 0;
+		while(iterator.hasNext()){
+			iteratedValue = iterator.next();
+			assertEquals(expectedNumbers[index++], iteratedValue);
+		}
+
+		array.resetPredicate();
+
+		iterator = array.iterator();
+		index = 0;
+
+		while(iterator.hasNext()){
+			iteratedValue = iterator.next();
+			assertEquals(initialNumbers[index++], iteratedValue);
+		}
+	}
 }
