@@ -9,7 +9,6 @@ import telran.common.predicates.EvenNumbersPredicate;
 import telran.common.predicates.LongStringPredicate;
 import telran.lessons._04.models.Person;
 import telran.lessons._04.models.PersonAgeComparator;
-import telran.lessons._09.IndexedLikedList;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.Iterator;
@@ -17,23 +16,23 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("unchecked")
-class IndexedListTest
+public class IndexedListTest
 {
-	Integer[] initialNumbers = {10, -8, 70, 75, 30};
-	String[] names = {
+	protected Integer[] initialNumbers = {10, -8, 70, 75, 30};
+	protected String[] names = {
 		  "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"
 	};
 
-	IndexedList<Integer> list;
+	protected IndexedList<Integer> list;
 
 	@BeforeEach
-	void setUp()
+	public void setUp()
 	{
-		list = new IndexedLikedList<>(this.initialNumbers);
+		list = new Array<>(this.initialNumbers);
 	}
 
 	@Test
-	void testAddGetSize()
+	public void testAddGetSize()
 	{
 		for (int i = 0; i < list.size(); i++) {
 			assertEquals(initialNumbers[i], list.get(i));
@@ -43,7 +42,7 @@ class IndexedListTest
 	}
 
 	@Test
-	void testAddByIndex()
+	public void testAddByIndex()
 	{
 		for (int i = 0; i < list.size(); i++) {
 			assertEquals(initialNumbers[i], list.get(i));
@@ -60,7 +59,7 @@ class IndexedListTest
 	}
 
 	@Test
-	void testRemoveSet()
+	public void testRemoveSet()
 	{
 		int number = -12;
 		int index = 2;
@@ -80,7 +79,7 @@ class IndexedListTest
 		assertEquals(expectedResult, list.remove(firstIndexRemove));
 	}
 
-	private IndexedList<Person> initPersons() throws Exception
+	protected IndexedList<Person> initPersons() throws Exception
 	{
 		IndexedList<Person> array = list.getClass().getConstructor().newInstance();
 
@@ -92,7 +91,7 @@ class IndexedListTest
 	}
 
 	@Test
-	void testRemoveByValue() throws Exception
+	public void testRemoveByValue() throws Exception
 	{
 		IndexedList<Person> array = initPersons();
 
@@ -106,7 +105,7 @@ class IndexedListTest
 	}
 
 	@Test
-	void testBinarySearchWithOutComparator() throws Exception
+	public void testBinarySearchWithOutComparator() throws Exception
 	{
 		IndexedList<Person> array = initPersons();
 
@@ -123,7 +122,7 @@ class IndexedListTest
 	}
 
 	@Test
-	void testBinarySearchWithComparator() throws Exception
+	public void testBinarySearchWithComparator() throws Exception
 	{
 		IndexedList<Person> array = initPersons();
 

@@ -1,6 +1,5 @@
 package telran.lessons._09;
 
-import org.jetbrains.annotations.NotNull;
 import telran.common.interfaces.IndexedList;
 
 import java.util.Comparator;
@@ -187,7 +186,6 @@ public class IndexedLikedList<T> implements IndexedList<T>
 		}
 	}
 
-	@NotNull
 	@Override
 	public Iterator<T> iterator()
 	{
