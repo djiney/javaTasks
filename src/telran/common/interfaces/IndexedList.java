@@ -25,4 +25,10 @@ public interface IndexedList<K> extends Iterable<K>
 
 	IndexedList<K> filter(Predicate<K> predicate);
 	boolean removeIf(Predicate<K> predicate);
+
+	void sort();
+	void sort(Comparator<K> comparator);
+
+	void setPredicate(Predicate<K> predicate);
+	void resetPredicate();
 }

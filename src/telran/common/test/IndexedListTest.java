@@ -1,5 +1,6 @@
 package telran.common.test;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import telran.common.Array;
 import telran.common.comparators.TrickySortingIntComparator;
@@ -8,112 +9,106 @@ import telran.common.predicates.EvenNumbersPredicate;
 import telran.common.predicates.LongStringPredicate;
 import telran.lessons._04.models.Person;
 import telran.lessons._04.models.PersonAgeComparator;
+import telran.lessons._09.IndexedLikedList;
 
+import java.lang.reflect.AnnotatedType;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArrayTest
+@SuppressWarnings("unchecked")
+class IndexedListTest
 {
+	Integer[] initialNumbers = {10, -8, 70, 75, 30};
+	String[] names = {
+		  "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"
+	};
+
+	IndexedList<Integer> list;
+
+	@BeforeEach
+	void setUp()
+	{
+		list = new IndexedLikedList<>(this.initialNumbers);
+	}
+
 	@Test
 	void testAddGetSize()
 	{
-		Array<Integer> array = new Array<>(4);
-		Integer[] numbers = {10, -8, 70, 75, 30};
-
-		for (int number : numbers) {
-			array.add(number);
+		for (int i = 0; i < list.size(); i++) {
+			assertEquals(initialNumbers[i], list.get(i));
 		}
 
-		for (int i = 0; i < array.size(); i++) {
-			assertEquals(numbers[i], array.get(i));
-		}
-
-		assertNull(array.get(array.size()));
+		assertNull(list.get(list.size()));
 	}
 
 	@Test
 	void testAddByIndex()
 	{
-		Array<Integer> array = new Array<>(4);
-		Integer[] numbers = {10, -8, 70, 75, 30};
-
-		for (int i = 0; i < numbers.length; i++) {
-			array.add(i, numbers[i]);
+		for (int i = 0; i < list.size(); i++) {
+			assertEquals(initialNumbers[i], list.get(i));
 		}
 
-		for (int i = 0; i < array.size(); i++) {
-			assertEquals(numbers[i], array.get(i));
-		}
-
-		for (int number : numbers) {
-			array.add(0, number);
+		for (int number : initialNumbers) {
+			list.add(0, number);
 		}
 
 		int arrayIndex = 0;
-		for (int i = numbers.length - 1; i >= 0; i--) {
-			assertEquals(numbers[i], array.get(arrayIndex++));
+		for (int i = initialNumbers.length - 1; i >= 0; i--) {
+			assertEquals(initialNumbers[i], list.get(arrayIndex++));
 		}
 	}
 
 	@Test
 	void testRemoveSet()
 	{
-		Array<Integer> array = new Array<>(4);
-
-		Integer[] numbers = {10, -8, 70, 75, 30};
-
-		for (int number : numbers) {
-			array.add(number);
-		}
-
 		int number = -12;
 		int index = 2;
 
-		assertEquals(70, array.set(index, number));
-		assertEquals(number, array.get(index));
+		assertEquals(70, list.set(index, number));
+		assertEquals(number, list.get(index));
 
 		int indexRemove = 3;
 
-		assertEquals(75, array.remove(indexRemove));
-		assertEquals(30, array.get(indexRemove));
-		assertEquals(4, array.size());
+		assertEquals(75, list.remove(indexRemove));
+		assertEquals(30, list.get(indexRemove));
+		assertEquals(4, list.size());
 
 		int firstIndexRemove = 0;
 		int expectedResult = 10;
 
-		assertEquals(expectedResult, array.remove(firstIndexRemove));
+		assertEquals(expectedResult, list.remove(firstIndexRemove));
 	}
 
-	@Test
-	void testRemoveByValue()
+	private IndexedList<Person> initPersons() throws Exception
 	{
-		Array<Person> array = new Array<>();
-
-		String[] names = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
+		IndexedList<Person> array = list.getClass().getConstructor().newInstance();
 
 		for (int i = 0; i < names.length; i++) {
 			array.add(new Person((i + 1) * 2, 1990 - i, names[i]));
 		}
+
+		return array;
+	}
+
+	@Test
+	void testRemoveByValue() throws Exception
+	{
+		IndexedList<Person> array = initPersons();
 
 		Person person = new Person(7, 1958, "TestPerson");
 		array.add(person);
 
+		AnnotatedType[] r = IndexedListTest.class.getAnnotatedInterfaces();
+
 		assertEquals(person, array.remove(person));
 		assertTrue(array.indexOf(person) < 0);
-
 	}
 
 	@Test
-	void testBinarySearchWithOutComparator()
+	void testBinarySearchWithOutComparator() throws Exception
 	{
-		Array<Person> array = new Array<>();
-
-		String[] names = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
-
-		for (int i = 0; i < names.length; i++) {
-			array.add(new Person((i + 1) * 2, 1990 - i, names[i]));
-		}
+		IndexedList<Person> array = initPersons();
 
 		Person person = new Person(7, 1958, "TestPerson");
 		array.add(person);
@@ -128,15 +123,9 @@ class ArrayTest
 	}
 
 	@Test
-	void testBinarySearchWithComparator()
+	void testBinarySearchWithComparator() throws Exception
 	{
-		Array<Person> array = new Array<>();
-
-		String[] names = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
-
-		for (int i = 0; i < names.length; i++) {
-			array.add(new Person((i + 1) * 2, 1990 - i, names[i]));
-		}
+		IndexedList<Person> array = initPersons();
 
 		Person person = new Person(7, 1958, "TestPerson");
 		array.add(person);
@@ -151,11 +140,10 @@ class ArrayTest
 	}
 
 	@Test
-	public void testRemoveIfPredicate()
+	public void testRemoveIfPredicate() throws Exception
 	{
-		Array<String> array = new Array<>();
-		String[] strings = {"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipisicing", "elit"};
-		for (String string : strings) {
+		IndexedList<String> array = list.getClass().getConstructor().newInstance();
+		for (String string : names) {
 			array.add(string);
 		}
 
@@ -172,14 +160,8 @@ class ArrayTest
 	@Test
 	public void testFilter()
 	{
-		Array<Integer> array = new Array<>();
-		Integer[] numbers = {10, -8, 70, 75, 30};
-		for (int number : numbers) {
-			array.add(number);
-		}
-
 		Integer[] filteredNumbers = {10, -8, 70, 30};
-		Array<Integer> filteredArray = array.filter(new EvenNumbersPredicate());
+		IndexedList<Integer> filteredArray = list.filter(new EvenNumbersPredicate());
 
 		for (int i = 0; i < filteredNumbers.length; i++) {
 			assertEquals(filteredNumbers[i], filteredArray.get(i));
@@ -187,14 +169,15 @@ class ArrayTest
 	}
 
 	@Test
-	public void testCustomEvenOddComparator()
+	public void testCustomEvenOddComparator() throws Exception
 	{
-		Array<Integer> array = new Array<>();
-
 		Integer[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		IndexedList<Integer> array = list.getClass()
+			  .getConstructor()
+			  .newInstance();
 
-		for (int number : numbers) {
-			array.add(number);
+		for (Integer value : numbers) {
+			array.add(value);
 		}
 
 		array.sort(new TrickySortingIntComparator());
@@ -206,13 +189,12 @@ class ArrayTest
 	}
 
 	@Test
-	public void testIterableSum()
+	public void testIterableSum() throws Exception
 	{
-		IndexedList<Integer> array = new Array<>();
-		Integer[] numbers = {10, -8, 70, 75, 30};
+		IndexedList<Integer> array = list.getClass().getConstructor().newInstance();
 
 		int expectedSum = 0;
-		for (int number : numbers) {
+		for (int number : initialNumbers) {
 			array.add(number);
 			expectedSum += number;
 		}
@@ -228,16 +210,9 @@ class ArrayTest
 	@Test
 	public void testIterableRemove()
 	{
-		IndexedList<Integer> array = new Array<>();
-		Integer[] numbers = {10, -8, 70, 75, 10, 30, 77, 77, 30};
+		Integer[] expectedNumbers = {-8, 75, 77};
 
-		for (int number : numbers) {
-			array.add(number);
-		}
-
-		Integer[] expectedNumbers = {-8, 75, 77, 77};
-
-		Iterator<Integer> iterator = array.iterator();
+		Iterator<Integer> iterator = list.iterator();
 		Integer iteratedValue;
 
 		while(iterator.hasNext()){
@@ -249,7 +224,7 @@ class ArrayTest
 		}
 
 		int index = 0;
-		for (Integer value: array) {
+		for (Integer value: list) {
 			assertEquals(expectedNumbers[index++], value);
 		}
 	}
@@ -257,14 +232,11 @@ class ArrayTest
 	@Test
 	public void testIterablePredicate()
 	{
-		Integer[] initialNumbers = {10, -8, 70, 75, 10, 30, 77, 77, 30};
-		Array<Integer> array = new Array<>(initialNumbers);
+		list.setPredicate(new EvenNumbersPredicate());
 
-		array.setPredicate(new EvenNumbersPredicate());
+		Integer[] expectedNumbers = {10, -8, 70, 30};
 
-		Integer[] expectedNumbers = {10, -8, 70, 10, 30, 30};
-
-		Iterator<Integer> iterator = array.iterator();
+		Iterator<Integer> iterator = list.iterator();
 		Integer iteratedValue;
 
 		int index = 0;
@@ -273,9 +245,9 @@ class ArrayTest
 			assertEquals(expectedNumbers[index++], iteratedValue);
 		}
 
-		array.resetPredicate();
+		list.resetPredicate();
 
-		iterator = array.iterator();
+		iterator = list.iterator();
 		index = 0;
 
 		while(iterator.hasNext()){
