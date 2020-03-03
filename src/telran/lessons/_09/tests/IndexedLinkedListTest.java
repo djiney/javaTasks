@@ -2,14 +2,14 @@ package telran.lessons._09.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import telran.common.test.IndexedListTest;
-import telran.lessons._09.IndexedLikedList;
+import telran.lessons._09.IndexedLinkedList;
 
-class IndexedLikedListTest extends IndexedListTest
+class IndexedLinkedListTest extends IndexedListTest
 {
 	@BeforeEach
 	@Override
 	public void setUp()
 	{
-		list = new IndexedLikedList<>(this.initialNumbers);
+		list = new IndexedLinkedList<>(this.initialNumbers);
 	}
 }

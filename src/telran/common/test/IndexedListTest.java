@@ -98,8 +98,6 @@ public class IndexedListTest
 		Person person = new Person(7, 1958, "TestPerson");
 		array.add(person);
 
-		AnnotatedType[] r = IndexedListTest.class.getAnnotatedInterfaces();
-
 		assertEquals(person, array.remove(person));
 		assertTrue(array.indexOf(person) < 0);
 	}
