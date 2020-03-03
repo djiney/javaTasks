@@ -1,11 +1,13 @@
 package telran.lessons._09;
 
+import telran.common.Array;
 import telran.common.interfaces.IndexedList;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
+@SuppressWarnings("unchecked")
 public class IndexedLinkedList<T> implements IndexedList<T>
 {
 	private Node<T> firstNode;
@@ -241,13 +243,37 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public IndexedList<T> filter(Predicate<T> predicate)
 	{
-		return null;
+		IndexedLinkedList<T> result = new IndexedLinkedList<>();
+
+		Node<T> node = firstNode;
+
+		for (int i = 0; i < this.size; i++) {
+			if (predicate.test(node.value)) {
+				result.add(node.value);
+			}
+
+			node = node.nextNode;
+		}
+
+		return result;
 	}
 
 	@Override
 	public boolean removeIf(Predicate<T> predicate)
 	{
-		return false;
+		int originalSize = this.size;
+
+		Node<T> node = lastNode;
+
+		for (int i = originalSize - 1; i >= 0; i--) {
+			if (predicate.test(node.value)) {
+				removeNode(node);
+			}
+
+			node = node.previousNode;
+		}
+
+		return originalSize > size;
 	}
 
 	@Override
