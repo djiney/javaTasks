@@ -281,7 +281,8 @@ public class Array<K> implements IndexedList<K>
 		@Override
 		public K next()
 		{
-			return data[currentIndex++];
+			K element = data[currentIndex++];
+			return predicate.test(element) ? element : null;
 		}
 
 		@Override
