@@ -230,12 +230,23 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public int binarySearch(Comparable<T> pattern)
 	{
-		return 0;
+		return this.binarySearch((T) pattern, (Comparator<T>) Comparator.naturalOrder());
 	}
 
 	@Override
 	public int binarySearch(T pattern, Comparator<T> comparator)
 	{
+
+
+
+
+
+
+
+
+
+
+
 		return 0;
 	}
 
@@ -284,7 +295,28 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public void sort(Comparator<T> comparator)
 	{
+		boolean flSort;
+		int length = size;
+		Node<T> node;
 
+		do {
+			flSort = true;
+			length--;
+			node = firstNode;
+
+			for (int i = 0; i < length; i++)
+			{
+				if (comparator.compare(node.value, node.nextNode.value) > 0)
+				{
+					T tmp = node.value;
+					node.value = node.nextNode.value;
+					node.nextNode.value = tmp;
+					flSort = false;
+				}
+
+				node = node.nextNode;
+			}
+		} while (!flSort);
 	}
 
 	@Override
