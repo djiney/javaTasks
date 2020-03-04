@@ -28,17 +28,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public void add(T element)
 	{
-		Node<T> newNode = new Node<>(element);
-		size++;
-
-		if (firstNode == null) {
-			firstNode = lastNode = newNode;
-		} else {
-			lastNode.nextNode = newNode;
-			newNode.previousNode = lastNode;
-
-			lastNode = newNode;
-		}
+		add(size, element);
 	}
 
 	@Override
