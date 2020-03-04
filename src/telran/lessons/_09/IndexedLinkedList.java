@@ -1,6 +1,5 @@
 package telran.lessons._09;
 
-import telran.common.Array;
 import telran.common.interfaces.IndexedList;
 
 import java.util.Comparator;
@@ -341,44 +340,38 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			}
 
 			this.predicate = predicate;
+			currentNode = firstNode;
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			if (!checkIndex()) {
-				return false;
+			while (currentNode != null && !predicate.test(currentNode.value)) {
+				setNext();
 			}
 
-//			if (currentNode == null) {
-//				currentNode = firstNode;
-//			}
-//
-//			while (checkIndex() && !predicate.test(currentNode.value)) {
-//				currentIndex++;
-//			}
-
-			return checkIndex();
-		}
-
-		private boolean checkIndex()
-		{
-			return false;
-//			return currentIndex < size;
+			return currentNode != null;
 		}
 
 		@Override
 		public T next()
 		{
-//			T element = data[currentIndex++];
-//			return predicate.test(element) ? element : null;
-			return null;
+			T element = currentNode.value;
+			setNext();
+
+			return predicate.test(element) ? element : null;
+		}
+
+		private void setNext()
+		{
+			currentNode = currentNode.nextNode;
 		}
 
 		@Override
 		public void remove()
 		{
-			removeNode(currentNode);
+			Node<T> nodeToRemove = currentNode == null ? lastNode : currentNode.previousNode;
+			removeNode(nodeToRemove);
 		}
 	}
 }
