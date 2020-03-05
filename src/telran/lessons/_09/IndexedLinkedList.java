@@ -63,12 +63,12 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		}
 
 		if (existingNode.previousNode != null) {
-			existingNode.previousNode.setNext(newNode);
-			newNode.setPrevious(existingNode.previousNode);
+			existingNode.previousNode.nextNode = newNode;
+			newNode.previousNode = existingNode.previousNode;
 		}
 
-		newNode.setNext(existingNode);
-		existingNode.setPrevious(newNode);
+		newNode.nextNode = existingNode;
+		existingNode.previousNode = newNode;
 
 		if (index == 0) {
 			firstNode = newNode;
@@ -115,13 +115,13 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	private void removeNode(Node<T> node)
 	{
 		if (node.previousNode != null) {
-			node.previousNode.setNext(node.nextNode);
+			node.previousNode.nextNode = node.nextNode;
 		} else {
 			firstNode = node.nextNode;
 		}
 
 		if (node.nextNode != null) {
-			node.nextNode.setPrevious(node.previousNode);
+			node.nextNode.previousNode = node.previousNode;
 		} else {
 			lastNode = node.previousNode;
 		}
@@ -138,11 +138,11 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 	private Node<T> getNodeByIndex(int index)
 	{
-		if (!isIndexValid(index)) {
+		if (isIndexInValid(index)) {
 			return null;
 		}
 
-		return index < size / 2 ? getNodeFromLeft(index) : getNodeFromRight(index);
+		return index < size / 2 && !hasLoop() ? getNodeFromLeft(index) : getNodeFromRight(index);
 	}
 
 	private Node<T> getNodeFromLeft(int index)
@@ -167,9 +167,15 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		return currentNode;
 	}
 
-	private boolean isIndexValid(int index)
+	private boolean isIndexInValid(int ... indexes)
 	{
-		return index >= 0 && index < size;
+		for (int index : indexes) {
+			if (index < 0 || index >= size) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -226,18 +232,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public int binarySearch(T pattern, Comparator<T> comparator)
 	{
-
-
-
-
-
-
-
-
-
-
-
-		return 0;
+		return -1;
 	}
 
 	@Override
@@ -274,6 +269,49 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		}
 
 		return originalSize > size;
+	}
+
+	public void setLoop(int indexFrom, int indexTo)
+	{
+		if (isIndexInValid(indexFrom, indexTo) || indexFrom < indexTo) {
+			return;
+		}
+
+		Node<T> nodeFrom = getNodeByIndex(indexFrom);
+		Node<T> nodeTo = getNodeByIndex(indexTo);
+
+		if (nodeFrom == null || nodeTo == null) {
+			return;
+		}
+
+		nodeFrom.nextNode = nodeTo;
+	}
+
+	public boolean hasLoop()
+	{
+		if (isEmpty()) {
+			return false;
+		}
+
+
+		Node<T> previousNode = null;
+		Node<T> currentNode = lastNode;
+
+		while (currentNode.previousNode != null) {
+			if (currentNode.nextNode != previousNode) {
+				return true;
+			}
+
+			previousNode = currentNode;
+			currentNode = currentNode.previousNode;
+		}
+
+		return false;
+	}
+
+	public boolean isEmpty()
+	{
+		return firstNode == null; // size == 0
 	}
 
 	@Override
@@ -331,16 +369,6 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		public Node(T value)
 		{
 			this.value = value;
-		}
-
-		public void setNext(Node<T> nextNode)
-		{
-			this.nextNode = nextNode;
-		}
-
-		public void setPrevious(Node<T> previousNode)
-		{
-			this.previousNode = previousNode;
 		}
 	}
 

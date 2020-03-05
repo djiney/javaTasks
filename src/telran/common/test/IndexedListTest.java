@@ -10,7 +10,6 @@ import telran.common.predicates.LongStringPredicate;
 import telran.lessons._04.models.Person;
 import telran.lessons._04.models.PersonAgeComparator;
 
-import java.lang.reflect.AnnotatedType;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
