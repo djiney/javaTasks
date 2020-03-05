@@ -45,6 +45,17 @@ class IndexedLinkedListTest extends IndexedListTest
 		expectedValue = 30;
 		expectedIndex = 4;
 		assertEquals(expectedValue, indexedList.get(expectedIndex));
+
+		indexedList.clearLoop();
+		assertFalse(indexedList.hasLoop());
+
+		iteration = 0;
+		for (Integer value : indexedList)
+		{
+			++iteration;
+		}
+
+		assertEquals(initialNumbers.length, iteration);
 	}
 
 	@Test

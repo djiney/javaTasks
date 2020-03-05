@@ -293,7 +293,6 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			return false;
 		}
 
-
 		Node<T> previousNode = null;
 		Node<T> currentNode = lastNode;
 
@@ -307,6 +306,23 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		}
 
 		return false;
+	}
+
+	public void clearLoop()
+	{
+		if (isEmpty()) {
+			return;
+		}
+
+		Node<T> previousNode = null;
+		Node<T> currentNode = lastNode;
+
+		while (currentNode.previousNode != null) {
+			currentNode.nextNode = previousNode;
+
+			previousNode = currentNode;
+			currentNode = currentNode.previousNode;
+		}
 	}
 
 	public boolean isEmpty()
