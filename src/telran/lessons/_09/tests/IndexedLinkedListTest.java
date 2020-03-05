@@ -29,7 +29,8 @@ class IndexedLinkedListTest extends IndexedListTest
 		int iteration = 0;
 		int iterationLimit = 100;
 
-		for (Integer value : indexedList) {
+		for (Integer value : indexedList)
+		{
 		    if (++iteration == iterationLimit) {
 		    	break;
 		    }
@@ -56,8 +57,8 @@ class IndexedLinkedListTest extends IndexedListTest
 		int iteration = 0;
 		int iterationLimit = 100;
 
-		for (Integer value : indexedList) {
-
+		for (Integer value : indexedList)
+		{
 			if (iteration == 0) {
 				assertEquals(initialNumbers[0], value);
 			} else {
