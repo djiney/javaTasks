@@ -232,7 +232,33 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public int binarySearch(T pattern, Comparator<T> comparator)
 	{
-		return -1;
+		if (pattern == null || size == 0) {
+			return -1;
+		}
+
+		T previousValue = this.firstNode.value;
+		Node<T> node = this.firstNode.nextNode;
+
+		if (pattern.equals(previousValue)) {
+			return 0;
+		}
+
+		int i;
+
+		for (i = 1; i < this.size; i++) {
+			if (pattern.equals(node.value)) {
+				return i;
+			}
+
+			if (comparator.compare(node.value, previousValue) < 0) {
+				break;
+			}
+
+			previousValue = node.value;
+			node = node.nextNode;
+		}
+
+		return -i - 1;
 	}
 
 	@Override
