@@ -319,19 +319,31 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			return false;
 		}
 
-		Node<T> previousNode = null;
-		Node<T> currentNode = lastNode;
+		Node<T> currentNode = firstNode;
+		int index = 0;
 
-		while (currentNode.previousNode != null) {
-			if (currentNode.nextNode != previousNode) {
+		while (currentNode.nextNode != null) {
+			if (index++ != findNodeIndex(currentNode)) {
 				return true;
 			}
 
-			previousNode = currentNode;
-			currentNode = currentNode.previousNode;
+			currentNode = currentNode.nextNode;
 		}
 
 		return false;
+	}
+
+	private int findNodeIndex(Node<T> node)
+	{
+		Node<T> currentNode = firstNode;
+		int index = 0;
+
+		while (currentNode.nextNode != null && !currentNode.equals(node)) {
+			currentNode = currentNode.nextNode;
+			index++;
+		}
+
+		return index;
 	}
 
 	public void clearLoop()
