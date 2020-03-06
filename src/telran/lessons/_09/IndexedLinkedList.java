@@ -422,7 +422,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	
 	private class IndexedLinkedListIterator implements Iterator<T>
 	{
-		Node<T> currentNode;
+		Node<T> currentNode = firstNode;
 		Predicate<T> predicate;
 
 		IndexedLinkedListIterator(Predicate<T> predicate)
@@ -432,14 +432,13 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			}
 
 			this.predicate = predicate;
-			currentNode = firstNode;
 		}
 
 		@Override
 		public boolean hasNext()
 		{
 			while (currentNode != null && !predicate.test(currentNode.value)) {
-				setNext();
+				currentNode = currentNode.nextNode;
 			}
 
 			return currentNode != null;
@@ -449,14 +448,9 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		public T next()
 		{
 			T element = currentNode.value;
-			setNext();
+			currentNode = currentNode.nextNode;
 
 			return predicate.test(element) ? element : null;
-		}
-
-		private void setNext()
-		{
-			currentNode = currentNode.nextNode;
 		}
 
 		@Override
