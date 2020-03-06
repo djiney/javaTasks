@@ -34,7 +34,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public boolean add(int index, T element)
 	{
-		if (index < 0 || index > this.size) {
+		if (index < 0 || index > size) {
 			return false;
 		}
 
@@ -42,7 +42,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 		if (firstNode == null) {
 			firstNode = lastNode = newNode;
-		} else if (index == this.size) {
+		} else if (index == size) {
 			lastNode.nextNode = newNode;
 			newNode.previousNode = lastNode;
 
@@ -100,15 +100,15 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			return null;
 		}
 
-		this.removeNode(node);
+		removeNode(node);
 		return node.value;
 	}
 
 	@Override
 	public T remove(T pattern)
 	{
-		return this.remove(
-				this.indexOf(pattern)
+		return remove(
+			  indexOf(pattern)
 		);
 	}
 
@@ -191,9 +191,9 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			return -1;
 		}
 
-		Node<T> node = this.firstNode;
+		Node<T> node = firstNode;
 
-		for (int i = 0; i < this.size; i++) {
+		for (int i = 0; i < size; i++) {
 			if (value.equals(node.value)) {
 				return i;
 			}
@@ -213,8 +213,8 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 		Node<T> node;
 
-		for (int i = this.size - 1; i > 0; i--) {
-			node = this.lastNode;
+		for (int i = size - 1; i > 0; i--) {
+			node = lastNode;
 			if (node.value.equals(value)) {
 				return i;
 			}
@@ -226,7 +226,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public int binarySearch(Comparable<T> pattern)
 	{
-		return this.binarySearch((T) pattern, (Comparator<T>) Comparator.naturalOrder());
+		return binarySearch((T) pattern, (Comparator<T>) Comparator.naturalOrder());
 	}
 
 	@Override
@@ -236,8 +236,8 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			return -1;
 		}
 
-		T previousValue = this.firstNode.value;
-		Node<T> node = this.firstNode.nextNode;
+		T previousValue = firstNode.value;
+		Node<T> node = firstNode.nextNode;
 
 		if (pattern.equals(previousValue)) {
 			return 0;
@@ -245,7 +245,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 		int i;
 
-		for (i = 1; i < this.size; i++) {
+		for (i = 1; i < size; i++) {
 			if (pattern.equals(node.value)) {
 				return i;
 			}
@@ -268,7 +268,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 		Node<T> node = firstNode;
 
-		for (int i = 0; i < this.size; i++) {
+		for (int i = 0; i < size; i++) {
 			if (predicate.test(node.value)) {
 				result.add(node.value);
 			}
@@ -282,7 +282,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public boolean removeIf(Predicate<T> predicate)
 	{
-		int originalSize = this.size;
+		int originalSize = size;
 
 		Node<T> node = lastNode;
 
@@ -359,7 +359,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public void sort()
 	{
-		this.sort((Comparator<T>) Comparator.naturalOrder());
+		sort((Comparator<T>) Comparator.naturalOrder());
 	}
 
 	@Override
@@ -398,7 +398,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public void resetPredicate()
 	{
-		this.setPredicate(null);
+		setPredicate(null);
 	}
 
 	private static class Node<T>
@@ -417,7 +417,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public Iterator<T> iterator()
 	{
-		return new IndexedLinkedListIterator(this.predicate);
+		return new IndexedLinkedListIterator(predicate);
 	}
 	
 	private class IndexedLinkedListIterator implements Iterator<T>
