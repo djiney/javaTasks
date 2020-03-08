@@ -29,7 +29,7 @@ class IndexedLinkedListTest extends IndexedListTest
 		int iteration = 0;
 		int iterationLimit = 100;
 
-		for (Integer value : indexedList)
+		for (Integer ignored : indexedList)
 		{
 		    if (++iteration == iterationLimit) {
 		    	break;
@@ -50,7 +50,7 @@ class IndexedLinkedListTest extends IndexedListTest
 		assertFalse(indexedList.hasLoop());
 
 		iteration = 0;
-		for (Integer value : indexedList)
+		for (Integer ignored : indexedList)
 		{
 			++iteration;
 		}
