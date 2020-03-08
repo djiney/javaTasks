@@ -2,6 +2,7 @@ package telran.lessons._09;
 
 import telran.common.interfaces.IndexedList;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.Predicate;
@@ -13,6 +14,8 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	private Node<T> lastNode;
 
 	private int size = 0;
+
+	private T[] cacheValues = null;
 
 	private Predicate<T> predicate;
 
@@ -52,6 +55,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		}
 
 		size++;
+		cacheValues = null;
 		return true;
 	}
 
@@ -232,33 +236,11 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public int binarySearch(T pattern, Comparator<T> comparator)
 	{
-		if (pattern == null || size == 0) {
-			return -1;
+		if (cacheValues == null) {
+			sort(comparator);
 		}
 
-		T previousValue = firstNode.value;
-		Node<T> node = firstNode.nextNode;
-
-		if (pattern.equals(previousValue)) {
-			return 0;
-		}
-
-		int i;
-
-		for (i = 1; i < size; i++) {
-			if (pattern.equals(node.value)) {
-				return i;
-			}
-
-			if (comparator.compare(node.value, previousValue) < 0) {
-				break;
-			}
-
-			previousValue = node.value;
-			node = node.nextNode;
-		}
-
-		return -i - 1;
+		return Arrays.binarySearch(cacheValues, pattern, comparator);
 	}
 
 	@Override
@@ -366,28 +348,26 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	@Override
 	public void sort(Comparator<T> comparator)
 	{
-		boolean flSort;
-		int length = size;
-		Node<T> node;
+		cacheValues = (T[]) new Object[size];
 
-		do {
-			flSort = true;
-			length--;
-			node = firstNode;
+		Node<T> currentNode = firstNode;
+		int index = 0;
 
-			for (int i = 0; i < length; i++)
-			{
-				if (comparator.compare(node.value, node.nextNode.value) > 0)
-				{
-					T tmp = node.value;
-					node.value = node.nextNode.value;
-					node.nextNode.value = tmp;
-					flSort = false;
-				}
+		while (currentNode != null)
+		{
+			cacheValues[index++] = currentNode.value;
+			currentNode = currentNode.nextNode;
+		}
 
-				node = node.nextNode;
-			}
-		} while (!flSort);
+		Arrays.sort(cacheValues, comparator);
+
+		currentNode = firstNode;
+		index = 0;
+		while (currentNode != null)
+		{
+			currentNode.value = cacheValues[index++];
+			currentNode = currentNode.nextNode;
+		}
 	}
 
 	@Override
