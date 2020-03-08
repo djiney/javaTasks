@@ -322,18 +322,14 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		Node<T> slowNode = firstNode;
 		Node<T> fastNode = firstNode.nextNode;
 
-		int increaseSlow = 0;
-
-		while (fastNode.nextNode != null)
+		while (fastNode != null && fastNode.nextNode != null)
 		{
 			if (fastNode == slowNode) {
 				return true;
 			}
 
-			fastNode = fastNode.nextNode;
-			if (increaseSlow++ % 2 == 0) {
-				slowNode = slowNode.nextNode;
-			}
+			slowNode = slowNode.nextNode;
+			fastNode = fastNode.nextNode.nextNode;
 		}
 
 		return false;
