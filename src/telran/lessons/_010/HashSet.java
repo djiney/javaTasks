@@ -14,7 +14,7 @@ public class HashSet<T> implements Set<T>
 	private static final double FACTOR = 0.75;
 	private static final int INCREMENT_INDEX = 2;
 
-	IndexedList<T>[] hastTable;
+	IndexedList<T>[] hashTable;
 	int size = 0;
 
 	public HashSet()
@@ -24,7 +24,7 @@ public class HashSet<T> implements Set<T>
 
 	public HashSet(int defaultSize)
 	{
-		hastTable = new IndexedList[defaultSize];
+		hashTable = new IndexedList[defaultSize];
 	}
 
 	public HashSet(T[] elements)
@@ -45,7 +45,7 @@ public class HashSet<T> implements Set<T>
 
 		size++;
 
-		if (size > FACTOR * hastTable.length) {
+		if (size > FACTOR * hashTable.length) {
 			reInitTable();
 		}
 
@@ -55,8 +55,8 @@ public class HashSet<T> implements Set<T>
 
 	private void reInitTable()
 	{
-		HashSet<T> temp = new HashSet<>(hastTable.length * INCREMENT_INDEX);
-		for (IndexedList<T> list : hastTable)
+		HashSet<T> temp = new HashSet<>(hashTable.length * INCREMENT_INDEX);
+		for (IndexedList<T> list : hashTable)
 		{
 			if (list == null) {
 				continue;
@@ -68,7 +68,7 @@ public class HashSet<T> implements Set<T>
 			}
 		}
 
-		hastTable = temp.hastTable;
+		hashTable = temp.hashTable;
 	}
 
 	@Override
@@ -128,9 +128,9 @@ public class HashSet<T> implements Set<T>
 	{
 		int index = getTableIndex(pattern);
 
-		IndexedList<T> list = hastTable[index];
+		IndexedList<T> list = hashTable[index];
 		if (list == null) {
-			hastTable[index] = list = new IndexedLinkedList<>();
+			hashTable[index] = list = new IndexedLinkedList<>();
 		}
 
 		return list;
@@ -138,7 +138,7 @@ public class HashSet<T> implements Set<T>
 
 	private int getTableIndex(T pattern)
 	{
-		return Math.abs(pattern.hashCode()) % hastTable.length;
+		return Math.abs(pattern.hashCode()) % hashTable.length;
 	}
 
 	@Override
@@ -174,8 +174,8 @@ public class HashSet<T> implements Set<T>
 		private void loadIterator()
 		{
 			while (this.hasNext() && (iterator == null || !iterator.hasNext())) {
-				if (hastTable[currentList++] != null) {
-					iterator = hastTable[currentList - 1].iterator();
+				if (hashTable[currentList++] != null) {
+					iterator = hashTable[currentList - 1].iterator();
 				}
 			}
 		}
