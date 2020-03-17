@@ -154,8 +154,6 @@ public class HashSet<T> implements Set<T>
 		int currentList = 0;
 		Iterator<T> iterator;
 
-		IndexedLinkedListIterator() {}
-
 		@Override
 		public boolean hasNext()
 		{
