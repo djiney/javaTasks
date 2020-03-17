@@ -67,14 +67,13 @@ public class TreeSet<T> implements Set<T>
 
 	private Node<T> getParent(T element)
 	{
-		Node<T> current = root;
-		int comparison = comparator.compare(element, current.value);
-		
-		while (hasNext(current, comparison))
-		{
+		Node<T> current = null;
+		int comparison = 0;
+
+		do {
 			current = getNext(current, comparison);
 			comparison = comparator.compare(element, current.value);
-		}
+		} while (hasNext(current, comparison));
 
 		return current;
 	}
@@ -90,6 +89,10 @@ public class TreeSet<T> implements Set<T>
 
 	private Node<T> getNext(Node<T> node, int comparison)
 	{
+		if (node == null) {
+			return root;
+		}
+
 		return comparison > 0 ? node.right : node.left;
 	}
 
