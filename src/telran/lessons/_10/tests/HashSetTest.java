@@ -1,11 +1,11 @@
-package telran.lessons._010.tests;
+package telran.lessons._10.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import telran.common.interfaces.Set;
 import telran.common.predicates.EvenNumbersPredicate;
 import telran.common.predicates.LongStringPredicate;
-import telran.lessons._010.HashSet;
+import telran.lessons._10.HashSet;
 
 import java.util.Arrays;
 import java.util.Iterator;

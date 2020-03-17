@@ -1,4 +1,4 @@
-package telran.lessons._010;
+package telran.lessons._10;
 
 import telran.common.interfaces.IndexedList;
 import telran.common.interfaces.Set;
