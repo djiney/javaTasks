@@ -144,10 +144,10 @@ public class HashSet<T> implements Set<T>
 	@Override
 	public Iterator<T> iterator()
 	{
-		return new IndexedLinkedListIterator();
+		return new HashSetIterator();
 	}
 
-	private class IndexedLinkedListIterator implements Iterator<T>
+	private class HashSetIterator implements Iterator<T>
 	{
 		int currentIndex = 0;
 
@@ -163,7 +163,7 @@ public class HashSet<T> implements Set<T>
 		@Override
 		public T next()
 		{
-			while (this.hasNext() && (iterator == null || !iterator.hasNext())) {
+			while (hasNext() && (iterator == null || !iterator.hasNext())) {
 				if (hashTable[currentList++] != null) {
 					iterator = hashTable[currentList - 1].iterator();
 				}

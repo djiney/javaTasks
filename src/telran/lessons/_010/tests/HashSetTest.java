@@ -148,4 +148,22 @@ class HashSetTest
 			assertTrue(filteredArray.contains(value));
 		}
 	}
+
+	@Test
+	public void testSingleList()
+	{
+		Integer[] testNumbers = {4, 16, 64, 256};
+		set = new HashSet<>(testNumbers);
+
+		Iterator<Integer> iterator = set.iterator();
+
+		assertEquals(testNumbers.length, set.size());
+
+		while (iterator.hasNext()) {
+			iterator.next();
+			iterator.remove();
+		}
+
+		assertEquals(0, set.size());
+	}
 }
