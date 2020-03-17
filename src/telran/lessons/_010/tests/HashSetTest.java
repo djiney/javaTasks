@@ -142,10 +142,10 @@ class HashSetTest
 		Integer[] filteredNumbers = {10, -8, 70, 30};
 		Set<Integer> filteredArray = set.filter(new EvenNumbersPredicate());
 
-		assertEquals(filteredNumbers.length, set.size());
+		assertEquals(filteredNumbers.length, filteredArray.size());
 
 		for (Integer value : filteredArray) {
-			assertTrue(set.contains(value));
+			assertTrue(filteredArray.contains(value));
 		}
 	}
 }

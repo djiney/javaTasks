@@ -74,15 +74,15 @@ public class HashSet<T> implements Set<T>
 	@Override
 	public Set<T> filter(Predicate<T> predicate)
 	{
-		Iterator<T> iterator = iterator();
+		Set<T> newSet = new HashSet<>(size);
 
-		while (iterator.hasNext()) {
-			if (!predicate.test(iterator.next())) {
-				iterator.remove();
+		for (T element : this) {
+			if (predicate.test(element)) {
+				newSet.add(element);
 			}
 		}
 
-		return this;
+		return newSet;
 	}
 
 	@Override
@@ -165,19 +165,15 @@ public class HashSet<T> implements Set<T>
 		@Override
 		public T next()
 		{
-			loadIterator();
-			currentIndex++;
-
-			return iterator == null ? null : iterator.next();
-		}
-
-		private void loadIterator()
-		{
 			while (this.hasNext() && (iterator == null || !iterator.hasNext())) {
 				if (hashTable[currentList++] != null) {
 					iterator = hashTable[currentList - 1].iterator();
 				}
 			}
+
+			currentIndex++;
+
+			return iterator == null ? null : iterator.next();
 		}
 
 		@Override
