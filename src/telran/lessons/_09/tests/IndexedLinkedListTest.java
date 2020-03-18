@@ -92,15 +92,16 @@ class IndexedLinkedListTest extends IndexedListTest
 
 		indexedList.setLoop(loopFrom, loopTo);
 		assertTrue(indexedList.hasLoop());
-		assertEquals(loopTo, indexedList.getLoopedNode());
+		assertEquals(loopFrom, indexedList.getLoopedNode());
 
 		indexedList.clearLoop();
 		assertFalse(indexedList.hasLoop());
 
-		loopTo = 2;
+		loopFrom = 3;
+		loopTo = 1;
 
 		indexedList.setLoop(loopFrom, loopTo);
 		assertTrue(indexedList.hasLoop());
-		assertEquals(loopTo, indexedList.getLoopedNode());
+		assertEquals(loopFrom, indexedList.getLoopedNode());
 	}
 }

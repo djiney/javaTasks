@@ -140,7 +140,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		return result == null ? null : result.value;
 	}
 
-	private Node<T> getNodeByIndex(int index)
+	public Node<T> getNodeByIndex(int index)
 	{
 		if (isIndexInValid(index)) {
 			return null;
@@ -340,17 +340,27 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		}
 
 		if (hasLoop) {
+			Node<T> loopedNode = fastNode;
 			slowNode = firstNode;
-			int i = 0;
 
-			while (fastNode != slowNode)
+			int i = 0;
+			int loopLength;
+
+			while (true)
 			{
+				loopLength = 0;
+
+				do {
+					fastNode = fastNode.nextNode;
+					if (fastNode.nextNode == slowNode) {
+						return i + loopLength;
+					}
+					loopLength++;
+				} while (fastNode != loopedNode);
+
 				slowNode = slowNode.nextNode;
-				fastNode = fastNode.nextNode;
 				i++;
 			}
-
-			return i;
 		}
 
 		return -1;
