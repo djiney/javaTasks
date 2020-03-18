@@ -81,4 +81,26 @@ class IndexedLinkedListTest extends IndexedListTest
 			}
 		}
 	}
+
+	@Test
+	public void testGetLoopedNode()
+	{
+		IndexedLinkedList<Integer> indexedList = (IndexedLinkedList<Integer>) list;
+
+		int loopFrom = 4;
+		int loopTo = 4;
+
+		indexedList.setLoop(loopFrom, loopTo);
+		assertTrue(indexedList.hasLoop());
+		assertEquals(loopTo, indexedList.getLoopedNode());
+
+		indexedList.clearLoop();
+		assertFalse(indexedList.hasLoop());
+
+		loopTo = 2;
+
+		indexedList.setLoop(loopFrom, loopTo);
+		assertTrue(indexedList.hasLoop());
+		assertEquals(loopTo, indexedList.getLoopedNode());
+	}
 }

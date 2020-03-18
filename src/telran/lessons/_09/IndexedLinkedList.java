@@ -302,19 +302,58 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		}
 
 		Node<T> slowNode = firstNode;
-		Node<T> fastNode = firstNode.nextNode;
+		Node<T> fastNode = slowNode;
 
 		while (fastNode != null && fastNode.nextNode != null)
 		{
+			slowNode = slowNode.nextNode;
+			fastNode = fastNode.nextNode.nextNode;
+
 			if (fastNode == slowNode) {
 				return true;
 			}
-
-			slowNode = slowNode.nextNode;
-			fastNode = fastNode.nextNode.nextNode;
 		}
 
 		return false;
+	}
+
+	public int getLoopedNode()
+	{
+		if (isEmpty()) {
+			return -1;
+		}
+
+		Node<T> slowNode = firstNode;
+		Node<T> fastNode = slowNode;
+
+		boolean hasLoop = false;
+
+		while (fastNode != null && fastNode.nextNode != null)
+		{
+			slowNode = slowNode.nextNode;
+			fastNode = fastNode.nextNode.nextNode;
+
+			if (fastNode == slowNode) {
+				hasLoop = true;
+				break;
+			}
+		}
+
+		if (hasLoop) {
+			slowNode = firstNode;
+			int i = 0;
+
+			while (fastNode != slowNode)
+			{
+				slowNode = slowNode.nextNode;
+				fastNode = fastNode.nextNode;
+				i++;
+			}
+
+			return i;
+		}
+
+		return -1;
 	}
 
 	public void clearLoop()
@@ -336,7 +375,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 	public boolean isEmpty()
 	{
-		return firstNode == null; // size == 0
+		return firstNode == null;
 	}
 
 	@Override
@@ -382,7 +421,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		setPredicate(null);
 	}
 
-	private static class Node<T>
+	public static class Node<T>
 	{
 		public Node<T> nextNode;
 		public Node<T> previousNode;
