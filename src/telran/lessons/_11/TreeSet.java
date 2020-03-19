@@ -36,9 +36,8 @@ public class TreeSet<T> implements Set<T>
 	@Override
 	public boolean add(T element)
 	{
-		if (root == null) {
-			root = new Node<>(element);
-		} else if (!addNode(element)) {
+		Node<T> newNode = new Node<>(element);
+		if (!addNode(newNode)) {
 			return false;
 		}
 
@@ -46,17 +45,22 @@ public class TreeSet<T> implements Set<T>
 		return true;
 	}
 
-	private boolean addNode(T element)
+	private boolean addNode(Node<T> newNode)
 	{
-		Node<T> parent = getParent(element);
+		if (root == null) {
+			newNode.parent = null;
+			root = newNode;
+			return true;
+		}
+
+		Node<T> parent = getParent(newNode.value);
 		if (parent == null) {
 			return false;
 		}
 
-		Node<T> newNode = new Node<>(element);
 		newNode.parent = parent;
 
-		if (comparator.compare(element, parent.value) < 0) {
+		if (comparator.compare(newNode.value, parent.value) < 0) {
 			parent.left = newNode;
 		} else {
 			parent.right = newNode;
@@ -65,35 +69,51 @@ public class TreeSet<T> implements Set<T>
 		return true;
 	}
 
-	private Node<T> getParent(T element)
+	private Node<T> getClosestNode(T element)
 	{
-		Node<T> current = null;
-		int comparison = 0;
+		Node<T> current = root;
+		if (current == null) {
+			return null;
+		}
 
-		do {
-			current = getNext(current, comparison);
+		int comparison = comparator.compare(element, current.value);
+
+		while (current.hasNext(comparison)) {
+			current = current.getNext(comparison);
 			comparison = comparator.compare(element, current.value);
-		} while (hasNext(current, comparison));
+		}
 
 		return current;
 	}
 
-	private boolean hasNext(Node<T> node, int comparison)
+	private Node<T> getMinNode()
 	{
-		if (comparison == 0) {
-			return false;
+		Node<T> result = root;
+		while (result.left != null) {
+			result = result.left;
 		}
 
-		return comparison > 0 ? node.right != null : node.left != null;
+		return result;
 	}
 
-	private Node<T> getNext(Node<T> node, int comparison)
+	private Node<T> getMaxNode()
 	{
-		if (node == null) {
-			return root;
+		Node<T> result = root;
+		while (result.right != null) {
+			result = result.right;
 		}
 
-		return comparison > 0 ? node.right : node.left;
+		return result;
+	}
+
+	private Node<T> getParent(T element)
+	{
+		Node<T> result = getClosestNode(element);
+		if (result != null && comparator.compare(element, result.value) == 0) {
+			result = null;
+		}
+
+		return result;
 	}
 
 	@Override
@@ -105,8 +125,29 @@ public class TreeSet<T> implements Set<T>
 	@Override
 	public T remove(T pattern)
 	{
+		Node<T> node = getClosestNode(pattern);
+		if (node == null || comparator.compare(pattern, node.value) != 0) {
+			return null;
+		}
+
 		size--;
-		return null;
+
+		Node<T> parent = node.parent;
+		if (parent != null) {
+			parent.removeChild(node);
+		} else {
+			root = null;
+		}
+
+		if (node.left != null) {
+			addNode(node.left);
+		}
+
+		if (node.right != null) {
+			addNode(node.right);
+		}
+
+		return node.value;
 	}
 
 	@Override
@@ -135,22 +176,95 @@ public class TreeSet<T> implements Set<T>
 
 	private class TreeSetIterator implements Iterator<T>
 	{
+		Node<T> currentNode;
+
+		T maxValue;
+
+		T lastValue;
+		T previousValue;
+
+		public TreeSetIterator()
+		{
+			goLeftFrom(root);
+			maxValue = getMaxNode().value;
+		}
+
 		@Override
 		public boolean hasNext()
 		{
-			return false;
+			return previousValue == null || comparator.compare(maxValue, previousValue) > 0;
 		}
 
 		@Override
 		public T next()
 		{
-			return null;
+			previousValue = currentNode.value;
+			setNextNode();
+
+			return previousValue;
 		}
 
 		@Override
 		public void remove()
 		{
+			TreeSet.this.remove(previousValue);
+			reset();
+		}
 
+		private void reset()
+		{
+			maxValue = getMaxNode().value;
+			if (comparator.compare(previousValue, maxValue) >= 0) {
+				return;
+			}
+
+			T tempValue = previousValue;
+			lastValue = null;
+
+			goLeftFrom(root);
+
+			while (comparator.compare(tempValue, currentNode.value) >= 0) {
+				setNextNode();
+			}
+
+			lastValue = tempValue;
+		}
+
+		private void setNextNode()
+		{
+			if (currentNode.right != null) {
+				goLeftFrom(currentNode.right);
+			} else {
+				goUp();
+			}
+		}
+
+		private void goLeftFrom(Node<T> node)
+		{
+			while (node.left != null) {
+				node = node.left;
+			}
+
+			setCurrentNode(node);
+		}
+
+		private void goUp()
+		{
+			while (currentNode.parent != null) {
+				setCurrentNode(currentNode.parent);
+				if (comparator.compare(lastValue, currentNode.value) <= 0) {
+					break;
+				}
+			}
+		}
+
+		private void setCurrentNode(Node<T> node)
+		{
+			currentNode = node;
+
+			if (lastValue == null || comparator.compare(lastValue, currentNode.value) <= 0) {
+				lastValue = currentNode.value;
+			}
 		}
 	}
 
@@ -166,6 +280,33 @@ public class TreeSet<T> implements Set<T>
 		Node(T object)
 		{
 			value = object;
+		}
+
+		public boolean hasNext(int comparison)
+		{
+			if (comparison == 0 ) {
+				return false;
+			}
+
+			return comparison > 0 ? right != null : left != null;
+		}
+
+		public Node<T> getNext(int comparison)
+		{
+			if (comparison == 0) {
+				return this;
+			}
+
+			return comparison > 0 ? right : left;
+		}
+
+		public void removeChild(Node<T> node)
+		{
+			if (node.equals(left)) {
+				left = null;
+			} else if (node.equals(right)) {
+				right = null;
+			}
 		}
 	}
 }
