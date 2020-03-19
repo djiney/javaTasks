@@ -4,6 +4,7 @@ import telran.common.interfaces.IndexedList;
 import telran.common.interfaces.Set;
 import telran.lessons._09.IndexedLinkedList;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
@@ -145,6 +146,18 @@ public class HashSet<T> implements Set<T>
 	public Iterator<T> iterator()
 	{
 		return new HashSetIterator();
+	}
+
+	public T[] toArray()
+	{
+		T[] result = (T[]) Array.newInstance(Integer.class, size);
+
+		int i = 0;
+		for (T value : this) {
+		    result[i++] = value;
+		}
+
+		return result;
 	}
 
 	private class HashSetIterator implements Iterator<T>

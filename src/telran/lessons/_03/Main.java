@@ -1,5 +1,7 @@
 package telran.lessons._03;
 
+import telran.lessons._10.HashSet;
+
 import java.util.Arrays;
 
 public class Main
@@ -68,17 +70,14 @@ public class Main
 	 * @return array containing numbers of first and second arrays
 	 * with no repetitions
 	 */
-	public static int[] union (int[] ar1, int[] ar2)
+	public static Integer[] union (Integer[] ar1, Integer[] ar2)
 	{
-		ar2 = Main.difference(ar2, ar1);
-
-		int[] result = new int[ar1.length + ar2.length];
-
-		for (int i = 0; i < result.length; i++) {
-			result[i] = i >= ar1.length ? ar2[i - ar1.length] : ar1[i];
+		HashSet<Integer> set = new HashSet<>(ar1);
+		for (Integer value : ar2) {
+			set.add(value);
 		}
 
-		return result;
+		return set.toArray();
 	}
 
 	/**
@@ -89,19 +88,19 @@ public class Main
 	 * @return array containing common numbers between first and second arrays
 	 * with no repetitions
 	 */
-	public static int[] intersection (int[] ar1, int[] ar2)
+	public static Integer[] intersection (Integer[] ar1, Integer[] ar2)
 	{
-		int[] result = new int[ar1.length];
+		HashSet<Integer> set = new HashSet<>(ar1);
+		HashSet<Integer> resultSet = new HashSet<>();
 
-		int index = 0;
+		for (Integer value : ar2) {
+			if (!set.add(value)) {
+				resultSet.add(value);
 
-		for (int value : ar1) {
-			if (Main.contains(ar2, value)) {
-				result[index++] = value;
 			}
 		}
 
-		return Arrays.copyOf(result, index);
+		return resultSet.toArray();
 	}
 
 	/**
@@ -112,22 +111,19 @@ public class Main
 	 * @return array containing numbers of first array that are not repeated
 	 * 	in the second
 	 */
-	public static int[] difference (int[] ar1, int[] ar2)
+	public static Integer[] difference (Integer[] ar1, Integer[] ar2)
 	{
-		int[] result = new int[ar1.length];
-
-		int index = 0;
-
-		for (int value : ar1) {
-			if (!Main.contains(ar2, value)) {
-				result[index++] = value;
-			}
+		HashSet<Integer> set = new HashSet<>(ar1);
+		for (Integer value : ar2) {
+		    if (set.contains(value)) {
+		    	set.remove(value);
+		    }
 		}
 
-		return Arrays.copyOf(result, index);
+		return set.toArray();
 	}
 
-	public static boolean contains(int[] array, int key)
+	public static boolean contains(Integer[] array, Integer key)
 	{
 		return Arrays.stream(array).anyMatch(i -> i == key);
 	}

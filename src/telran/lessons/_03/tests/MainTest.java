@@ -3,6 +3,8 @@ package telran.lessons._03.tests;
 import telran.lessons._03.Main;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class MainTest
@@ -52,36 +54,45 @@ class MainTest
 	@Test
 	void testUnion ()
 	{
-		int[] ar1 = {10, 30, -8, 20};
-		int[] ar2 = {0, -3, 7, 11};
-		int[] ar3 = {0, -8, 20, 10};
-		int[] exp1 = {10, 30, -8, 20, 0, -3, 7, 11};
-		int[] exp2 = {10, 30, -8, 20, 0};
-		assertArrayEquals(exp1, Main.union(ar1, ar2));
-		assertArrayEquals(exp2, Main.union(ar1, ar3));
+		Integer[] ar1 = {10, 30, -8, 20};
+		Integer[] ar2 = {0, -3, 7, 11};
+		Integer[] ar3 = {0, -8, 20, 10};
+		Integer[] exp1 = {10, 30, -8, 20, 0, -3, 7, 11};
+		Integer[] exp2 = {10, 30, -8, 20, 0};
+
+		compareArrays(exp1, Main.union(ar1, ar2));
+		compareArrays(exp2, Main.union(ar1, ar3));
 	}
 
 	@Test
 	void testIntersection ()
 	{
-		int[] ar1 = {10, 30, -8, 20};
-		int[] ar2 = {0, -3, 7, 11};
-		int[] ar3 = {0, -8, 20, 10};
-		int[] exp1 = {};
-		int[] exp2 = {10, -8, 20};
-		assertArrayEquals(exp1, Main.intersection(ar1, ar2));
-		assertArrayEquals(exp2, Main.intersection(ar1, ar3));
+		Integer[] ar1 = {10, 30, -8, 20};
+		Integer[] ar2 = {0, -3, 7, 11};
+		Integer[] ar3 = {0, -8, 20, 10};
+		Integer[] exp1 = {};
+		Integer[] exp2 = {10, -8, 20};
+		compareArrays(exp1, Main.intersection(ar1, ar2));
+		compareArrays(exp2, Main.intersection(ar1, ar3));
 	}
 
 	@Test
 	void testDifference ()
 	{
-		int[] ar1 = {10, 30, -8, 20};
-		int[] ar2 = {0, -3, 7, 11};
-		int[] ar3 = {0, -8, 20, 10};
-		int[] exp1 = {10, 30, -8, 20};
-		int[] exp2 = {30};
-		assertArrayEquals(exp1, Main.difference(ar1, ar2));
-		assertArrayEquals(exp2, Main.difference(ar1, ar3));
+		Integer[] ar1 = {10, 30, -8, 20};
+		Integer[] ar2 = {0, -3, 7, 11};
+		Integer[] ar3 = {0, -8, 20, 10};
+		Integer[] exp1 = {10, 30, -8, 20};
+		Integer[] exp2 = {30};
+		compareArrays(exp1, Main.difference(ar1, ar2));
+		compareArrays(exp2, Main.difference(ar1, ar3));
+	}
+
+	private void compareArrays(Integer[] array1, Integer[] array2)
+	{
+		Arrays.sort(array1);
+		Arrays.sort(array2);
+
+		assertArrayEquals(array1, array2);
 	}
 }
