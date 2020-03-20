@@ -1,7 +1,6 @@
 package telran.lessons._11;
 
 import telran.common.interfaces.Set;
-import telran.lessons._09.IndexedLinkedList;
 
 import java.util.Comparator;
 import java.util.Iterator;
