@@ -187,7 +187,7 @@ public class TreeSet<T> implements Set<T>
 	@Override
 	public boolean contains(T pattern)
 	{
-		return getParent(pattern) == null;
+		return root != null && getParent(pattern) == null;
 	}
 
 	@Override

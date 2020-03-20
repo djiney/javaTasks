@@ -54,6 +54,20 @@ class TreeSetTest
 	}
 
 	@Test
+	public void testContains()
+	{
+		Integer[] numbers = {1, 2, 3};
+		TreeSet<Integer> set = new TreeSet<>();
+
+		assertFalse(set.contains(4));
+
+		for (Integer value : numbers) {
+			assertTrue(set.add(value));
+			assertTrue(set.contains(value));
+		}
+	}
+
+	@Test
 	public void testRemoveAdditional()
 	{
 		Integer[] numbers = {50, 45, 82, 20, 48, 60, 85};
@@ -99,7 +113,6 @@ class TreeSetTest
 		int i = 0;
 		while (iterator.hasNext()) {
 			value = iterator.next();
-			System.out.println(value);
 
 			assertEquals(sortedNumbers[i++], value);
 			if (value % 2 == 0) {
