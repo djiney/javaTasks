@@ -1,6 +1,7 @@
 package telran.lessons._11;
 
 import telran.common.interfaces.Set;
+import telran.lessons._09.IndexedLinkedList;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -86,6 +87,18 @@ public class TreeSet<T> implements Set<T>
 		return current;
 	}
 
+	public T getMax()
+	{
+		Node<T> node = getMaxNode();
+		return node == null ? null : node.value;
+	}
+
+	public T getMin()
+	{
+		Node<T> node = getMinNode();
+		return node == null ? null : node.value;
+	}
+
 	private Node<T> getMinNode()
 	{
 		Node<T> result = root;
@@ -114,12 +127,6 @@ public class TreeSet<T> implements Set<T>
 		}
 
 		return result;
-	}
-
-	@Override
-	public Set<T> filter(Predicate<T> predicate)
-	{
-		return null;
 	}
 
 	@Override
@@ -153,7 +160,29 @@ public class TreeSet<T> implements Set<T>
 	@Override
 	public boolean removeIf(Predicate<T> predicate)
 	{
-		return false;
+		int originalSize = size;
+
+		for (T value : this) {
+			if (!predicate.test(value)) {
+				remove(value);
+			}
+		}
+
+		return originalSize > size;
+	}
+
+	@Override
+	public Set<T> filter(Predicate<T> predicate)
+	{
+		TreeSet<T> result = new TreeSet<>();
+
+		for (T value : this) {
+			if (predicate.test(value)) {
+				result.add(value);
+			}
+		}
+
+		return result;
 	}
 
 	@Override
