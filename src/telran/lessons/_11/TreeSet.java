@@ -48,8 +48,7 @@ public class TreeSet<T> implements Set<T>
 	private boolean addNode(Node<T> newNode)
 	{
 		if (root == null) {
-			newNode.parent = null;
-			root = newNode;
+			setAsRoot(newNode);
 			return true;
 		}
 
@@ -67,6 +66,14 @@ public class TreeSet<T> implements Set<T>
 		}
 
 		return true;
+	}
+
+	private void setAsRoot(Node<T> node)
+	{
+		root = node;
+		if (node != null) {
+			node.parent = null;
+		}
 	}
 
 	private Node<T> getClosestNode(T element)
@@ -165,7 +172,7 @@ public class TreeSet<T> implements Set<T>
 		if (node.parent != null) {
 			node.parent.replaceChild(node, nextNode);
 		} else {
-			root = nextNode;
+			setAsRoot(nextNode);
 		}
 	}
 
