@@ -265,21 +265,7 @@ public class TreeSet<T> implements Set<T>
 		public void remove()
 		{
 			TreeSet.this.remove(previousValue);
-			reset();
-		}
-
-		private void reset()
-		{
-			if (!hasNext()) {
-				return;
-			}
-
-			T tempValue = currentNode.value;
-			currentNode = getMinFrom(root);
-
-			while (hasNext() && comparator.compare(tempValue, currentNode.value) != 0) {
-				next();
-			}
+			currentNode = getClosestNode(currentNode.value);
 		}
 	}
 
