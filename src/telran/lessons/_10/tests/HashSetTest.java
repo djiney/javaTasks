@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HashSetTest
+public class HashSetTest
 {
 	protected Integer[] initialNumbers = {10, -8, 70, 75, 30};
 	protected String[] names = {
@@ -98,7 +98,7 @@ class HashSetTest
 		compareWithArray(expectedNumbers);
 	}
 
-	private Integer[] loadNumbers()
+	protected Integer[] loadNumbers()
 	{
 		Integer[] result = new Integer[set.size()];
 		int i = 0;

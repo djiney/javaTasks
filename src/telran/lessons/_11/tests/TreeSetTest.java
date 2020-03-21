@@ -1,6 +1,8 @@
 package telran.lessons._11.tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import telran.lessons._10.tests.HashSetTest;
 import telran.lessons._11.TreeSet;
 
 import java.util.Arrays;
@@ -10,12 +12,18 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TreeSetTest
+class TreeSetTest extends HashSetTest
 {
-	@Test
-	public void testRemove()
+	@BeforeEach
+	public void setUp()
 	{
-		Integer[] numbers = getShuffledArray(1000);
+		set = new TreeSet<>(initialNumbers);
+	}
+
+	@Test
+	public void testAdditionalRemove()
+	{
+		Integer[] numbers = getShuffledArray(10000);
 		TreeSet<Integer> set = new TreeSet<>(numbers);
 
 		assertEquals(numbers.length, set.size());
@@ -83,7 +91,7 @@ class TreeSetTest
 	}
 
 	@Test
-	public void testIteration()
+	public void testAdditionalIteration()
 	{
 		Integer[] numbers = getShuffledArray(1000);
 		Integer[] sortedNumbers = Arrays.copyOf(numbers, numbers.length);

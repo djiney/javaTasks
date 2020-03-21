@@ -136,24 +136,37 @@ public class TreeSet<T> implements Set<T>
 			return null;
 		}
 
+		T result = node.value;
+		removeNode(node);
+
+		return result;
+	}
+
+	public void removeNode(Node<T> node)
+	{
+		if (node.isJunction()) {
+			Node<T> substitute = getMinFrom(node.right);
+			node.value = substitute.value;
+			node = substitute;
+		}
+
+		removeLinearNode(node);
 		size--;
+	}
 
-		Node<T> parent = node.parent;
-		if (parent != null) {
-			parent.removeChild(node);
+	private void removeLinearNode(Node<T> node)
+	{
+		Node<T> nextNode = null;
+
+		if (!node.isFinal()) {
+			nextNode = node.left == null ? node.right : node.left;
+		}
+
+		if (node.parent != null) {
+			node.parent.replaceChild(node, nextNode);
 		} else {
-			root = null;
+			root = nextNode;
 		}
-
-		if (node.left != null) {
-			addNode(node.left);
-		}
-
-		if (node.right != null) {
-			addNode(node.right);
-		}
-
-		return node.value;
 	}
 
 	@Override
@@ -196,6 +209,24 @@ public class TreeSet<T> implements Set<T>
 		return size;
 	}
 
+	private Node<T> getMinFrom(Node<T> node)
+	{
+		while (node.left != null) {
+			node = node.left;
+		}
+
+		return node;
+	}
+
+	private Node<T> getLeftParentFrom(Node<T> node)
+	{
+		while (node.parent != null && node.parent.right == node) {
+			node = node.parent;
+		}
+
+		return node.parent;
+	}
+
 	@Override
 	public Iterator<T> iterator()
 	{
@@ -204,30 +235,21 @@ public class TreeSet<T> implements Set<T>
 
 	private class TreeSetIterator implements Iterator<T>
 	{
-		Node<T> currentNode;
+		Node<T> currentNode = getMinFrom(root);
 
-		T maxValue;
-
-		T lastValue;
 		T previousValue;
-
-		public TreeSetIterator()
-		{
-			goLeftFrom(root);
-			maxValue = getMaxNode().value;
-		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return previousValue == null || comparator.compare(maxValue, previousValue) > 0;
+			return currentNode != null;
 		}
 
 		@Override
 		public T next()
 		{
 			previousValue = currentNode.value;
-			setNextNode();
+			currentNode = currentNode.right != null ? getMinFrom(currentNode.right) : getLeftParentFrom(currentNode);
 
 			return previousValue;
 		}
@@ -241,57 +263,15 @@ public class TreeSet<T> implements Set<T>
 
 		private void reset()
 		{
-			maxValue = getMaxNode().value;
-			if (comparator.compare(previousValue, maxValue) >= 0) {
+			if (!hasNext()) {
 				return;
 			}
 
-			T tempValue = previousValue;
-			lastValue = null;
+			T tempValue = currentNode.value;
+			currentNode = getMinFrom(root);
 
-			goLeftFrom(root);
-
-			while (comparator.compare(tempValue, currentNode.value) >= 0) {
-				setNextNode();
-			}
-
-			lastValue = tempValue;
-		}
-
-		private void setNextNode()
-		{
-			if (currentNode.right != null) {
-				goLeftFrom(currentNode.right);
-			} else {
-				goUp();
-			}
-		}
-
-		private void goLeftFrom(Node<T> node)
-		{
-			while (node.left != null) {
-				node = node.left;
-			}
-
-			setCurrentNode(node);
-		}
-
-		private void goUp()
-		{
-			while (currentNode.parent != null) {
-				setCurrentNode(currentNode.parent);
-				if (comparator.compare(lastValue, currentNode.value) <= 0) {
-					break;
-				}
-			}
-		}
-
-		private void setCurrentNode(Node<T> node)
-		{
-			currentNode = node;
-
-			if (lastValue == null || comparator.compare(lastValue, currentNode.value) <= 0) {
-				lastValue = currentNode.value;
+			while (hasNext() && comparator.compare(tempValue, currentNode.value) != 0) {
+				next();
 			}
 		}
 	}
@@ -328,12 +308,26 @@ public class TreeSet<T> implements Set<T>
 			return comparison > 0 ? right : left;
 		}
 
-		public void removeChild(Node<T> node)
+		public boolean isJunction()
 		{
-			if (node.equals(left)) {
-				left = null;
-			} else if (node.equals(right)) {
-				right = null;
+			return left != null && right != null;
+		}
+
+		public boolean isFinal()
+		{
+			return left == null && right == null;
+		}
+
+		public void replaceChild(Node<T> oldChild, Node<T> newChild)
+		{
+			if (oldChild == left) {
+				left = newChild;
+			} else if (oldChild == right) {
+				right = newChild;
+			}
+
+			if (newChild != null) {
+				newChild.parent = this;
 			}
 		}
 	}
