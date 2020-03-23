@@ -270,7 +270,10 @@ public class TreeSet<T> implements Set<T>
 		public void remove()
 		{
 			TreeSet.this.remove(previousValue);
-			currentNode = getClosestNode(currentNode.value);
+
+			if (hasNext()) {
+				currentNode = getClosestNode(currentNode.value);
+			}
 		}
 	}
 

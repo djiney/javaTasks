@@ -121,6 +121,21 @@ public class HashSetTest
 	}
 
 	@Test
+	public void testRemoveAll()
+	{
+		Iterator<Integer> iterator = set.iterator();
+
+		assertEquals(initialNumbers.length, set.size());
+
+		while (iterator.hasNext()) {
+			iterator.next();
+			iterator.remove();
+		}
+
+		assertEquals(0, set.size());
+	}
+
+	@Test
 	public void testRemoveIfPredicate()
 	{
 		Set<String> stringSet = new HashSet<>(names);
