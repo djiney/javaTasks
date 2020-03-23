@@ -181,9 +181,14 @@ public class TreeSet<T> implements Set<T>
 	{
 		int originalSize = size;
 
-		for (T value : this) {
-			if (!predicate.test(value)) {
-				remove(value);
+		Iterator<T> iterator = iterator();
+		T value;
+
+		while(iterator.hasNext())
+		{
+			value = iterator.next();
+			if (predicate.test(value)) {
+				iterator.remove();
 			}
 		}
 

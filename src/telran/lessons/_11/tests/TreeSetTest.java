@@ -2,6 +2,7 @@ package telran.lessons._11.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import telran.common.predicates.EvenNumbersPredicate;
 import telran.lessons._10.tests.HashSetTest;
 import telran.lessons._11.TreeSet;
 
@@ -59,6 +60,21 @@ class TreeSetTest extends HashSetTest
 		intList.toArray(numbers);
 
 		return numbers;
+	}
+
+	@Test
+	public void testRemoveIf()
+	{
+		for (int i = 0; i < 10000; i++) {
+			set.add((int) (Math.random() * Integer.MAX_VALUE));
+		}
+
+		assertTrue(set.removeIf(new EvenNumbersPredicate()));
+		assertFalse(set.removeIf(new EvenNumbersPredicate()));
+
+		for(int value : set) {
+			assertEquals(1, value % 2);
+		}
 	}
 
 	@Test
