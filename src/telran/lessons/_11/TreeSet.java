@@ -149,16 +149,22 @@ public class TreeSet<T> implements Set<T>
 		return result;
 	}
 
-	public void removeNode(Node<T> node)
+	public Node<T> removeNode(Node<T> node)
 	{
+		Node<T> nextNode = null;
+
 		if (node.isJunction()) {
 			Node<T> substitute = getMinFrom(node.right);
 			node.value = substitute.value;
+
+			nextNode = node;
 			node = substitute;
 		}
 
 		removeLinearNode(node);
 		size--;
+
+		return nextNode;
 	}
 
 	private void removeLinearNode(Node<T> node)
@@ -248,8 +254,7 @@ public class TreeSet<T> implements Set<T>
 	private class TreeSetIterator implements Iterator<T>
 	{
 		Node<T> currentNode = getMinFrom(root);
-
-		T previousValue;
+		Node<T> previousNode;
 
 		@Override
 		public boolean hasNext()
@@ -260,19 +265,18 @@ public class TreeSet<T> implements Set<T>
 		@Override
 		public T next()
 		{
-			previousValue = currentNode.value;
+			previousNode = currentNode;
 			currentNode = currentNode.right != null ? getMinFrom(currentNode.right) : getLeftParentFrom(currentNode);
 
-			return previousValue;
+			return previousNode.value;
 		}
 
 		@Override
 		public void remove()
 		{
-			TreeSet.this.remove(previousValue);
-
-			if (hasNext()) {
-				currentNode = getClosestNode(currentNode.value);
+			Node<T> nextNode = TreeSet.this.removeNode(previousNode);
+			if (hasNext() && nextNode != null) {
+				currentNode = nextNode;
 			}
 		}
 	}
