@@ -275,7 +275,7 @@ public class TreeSet<T> implements Set<T>
 		public void remove()
 		{
 			Node<T> nextNode = TreeSet.this.removeNode(previousNode);
-			if (hasNext() && nextNode != null) {
+			if (nextNode != null) {
 				currentNode = nextNode;
 			}
 		}
