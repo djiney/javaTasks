@@ -52,9 +52,19 @@ public class HashSetTest
 		compareWithArray(initialNumbers);
 	}
 
-	private void compareWithArray(Integer[] array)
+	protected void compareWithArray(Integer[] array)
 	{
-		Integer[] actualNumbers = loadNumbers();
+		compareSetToArray(set, array);
+	}
+
+	protected void compareSetToArray(Set<Integer> set, Integer[] array)
+	{
+		Integer[] actualNumbers = new Integer[set.size()];
+		int i = 0;
+
+		for (Integer number : set) {
+			actualNumbers[i++] = number;
+		}
 
 		Arrays.sort(array);
 		Arrays.sort(actualNumbers);

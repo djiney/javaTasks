@@ -13,12 +13,24 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TreeSetTest extends HashSetTest
+public class TreeSetTest extends HashSetTest
 {
 	@BeforeEach
 	public void setUp()
 	{
 		set = new TreeSet<>(initialNumbers);
+	}
+
+	@SuppressWarnings("StatementWithEmptyBody")
+	@Test
+	public void testEmptyIterator()
+	{
+		set = new TreeSet<>();
+		assertEquals(0, set.size());
+
+		for (Integer ignored : set) {
+			// Empty iteration
+		}
 	}
 
 	@Test

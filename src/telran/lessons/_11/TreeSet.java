@@ -9,10 +9,10 @@ import java.util.function.Predicate;
 @SuppressWarnings("unchecked")
 public class TreeSet<T> implements Set<T>
 {
-	Comparator<T> comparator;
-	Node<T> root;
+	protected Comparator<T> comparator;
+	protected Node<T> root;
 
-	private int size = 0;
+	protected int size = 0;
 
 	public TreeSet()
 	{
@@ -45,7 +45,7 @@ public class TreeSet<T> implements Set<T>
 		return true;
 	}
 
-	private boolean addNode(Node<T> newNode)
+	protected boolean addNode(Node<T> newNode)
 	{
 		if (root == null) {
 			setAsRoot(newNode);
@@ -68,7 +68,7 @@ public class TreeSet<T> implements Set<T>
 		return true;
 	}
 
-	private void setAsRoot(Node<T> node)
+	protected void setAsRoot(Node<T> node)
 	{
 		root = node;
 		if (node != null) {
@@ -76,7 +76,7 @@ public class TreeSet<T> implements Set<T>
 		}
 	}
 
-	private Node<T> getClosestNode(T element)
+	protected Node<T> getClosestNode(T element)
 	{
 		Node<T> current = root;
 		if (current == null) {
@@ -105,27 +105,27 @@ public class TreeSet<T> implements Set<T>
 		return node == null ? null : node.value;
 	}
 
-	private Node<T> getMinNode()
+	protected Node<T> getMinNode()
 	{
 		Node<T> result = root;
-		while (result.left != null) {
+		while (result != null && result.left != null) {
 			result = result.left;
 		}
 
 		return result;
 	}
 
-	private Node<T> getMaxNode()
+	protected Node<T> getMaxNode()
 	{
 		Node<T> result = root;
-		while (result.right != null) {
+		while (result != null && result.right != null) {
 			result = result.right;
 		}
 
 		return result;
 	}
 
-	private Node<T> getParent(T element)
+	protected Node<T> getParent(T element)
 	{
 		Node<T> result = getClosestNode(element);
 		if (result != null && comparator.compare(element, result.value) == 0) {
@@ -167,7 +167,7 @@ public class TreeSet<T> implements Set<T>
 		return nextNode;
 	}
 
-	private void removeLinearNode(Node<T> node)
+	protected void removeLinearNode(Node<T> node)
 	{
 		Node<T> nextNode = null;
 
@@ -227,16 +227,16 @@ public class TreeSet<T> implements Set<T>
 		return size;
 	}
 
-	private Node<T> getMinFrom(Node<T> node)
+	protected Node<T> getMinFrom(Node<T> node)
 	{
-		while (node.left != null) {
+		while (node != null && node.left != null) {
 			node = node.left;
 		}
 
 		return node;
 	}
 
-	private Node<T> getLeftParentFrom(Node<T> node)
+	protected Node<T> getLeftParentFrom(Node<T> node)
 	{
 		while (node.parent != null && node.parent.right == node) {
 			node = node.parent;
@@ -251,7 +251,7 @@ public class TreeSet<T> implements Set<T>
 		return new TreeSetIterator();
 	}
 
-	private class TreeSetIterator implements Iterator<T>
+	protected class TreeSetIterator implements Iterator<T>
 	{
 		Node<T> currentNode = getMinFrom(root);
 		Node<T> previousNode;
@@ -281,14 +281,14 @@ public class TreeSet<T> implements Set<T>
 		}
 	}
 
-	private static class Node<T>
+	protected static class Node<T>
 	{
-		T value;
+		public T value;
 
-		Node<T> parent;
+		public Node<T> parent;
 
-		Node<T> left;
-		Node<T> right;
+		public Node<T> left;
+		public Node<T> right;
 
 		Node(T object)
 		{
