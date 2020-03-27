@@ -334,14 +334,11 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 	{
 		firstNode.swap();
 
-		if (firstNode == lastNode) {
-			return;
-		}
-
-		lastNode.swap();
-
-		if (firstNode.previousNode != null && firstNode.previousNode != lastNode) {
-			reverseNodes(firstNode.previousNode, lastNode.nextNode);
+		if (firstNode != lastNode) {
+			lastNode.swap();
+			if (firstNode.previousNode != null && firstNode.previousNode != lastNode) {
+				reverseNodes(firstNode.previousNode, lastNode.nextNode);
+			}
 		}
 	}
 
