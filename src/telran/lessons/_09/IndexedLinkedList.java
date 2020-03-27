@@ -319,6 +319,10 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 	public void reverse()
 	{
+		if (size == 0) {
+			return;
+		}
+
 		reverseNode(firstNode);
 
 		Node<T> temp = firstNode;
