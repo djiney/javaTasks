@@ -317,6 +317,24 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		return false;
 	}
 
+	public void reverse()
+	{
+		reverseNode(firstNode);
+
+		Node<T> temp = firstNode;
+		firstNode = lastNode;
+		lastNode = temp;
+	}
+
+	private void reverseNode(Node<T> node)
+	{
+		node.swap();
+
+		if (node.previousNode != null) {
+			reverseNode(node.previousNode);
+		}
+	}
+
 	public int getLoopedNode()
 	{
 		if (isEmpty()) {
@@ -441,6 +459,13 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		public Node(T value)
 		{
 			this.value = value;
+		}
+
+		public void swap()
+		{
+			Node<T> temp = nextNode;
+			nextNode = previousNode;
+			previousNode = temp;
 		}
 	}
 

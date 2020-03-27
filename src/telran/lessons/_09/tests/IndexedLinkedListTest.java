@@ -104,4 +104,17 @@ class IndexedLinkedListTest extends IndexedListTest
 		assertTrue(indexedList.hasLoop());
 		assertEquals(loopFrom, indexedList.getLoopedNode());
 	}
+
+	@Test
+	public void testReverse()
+	{
+		((IndexedLinkedList<Integer>) list).reverse();
+
+		Integer[] expected = {30, 75, 70, -8, 10};
+		int i = 0;
+
+		for (Integer value : list) {
+		    assertEquals(value, expected[i++]);
+		}
+	}
 }

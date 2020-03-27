@@ -25,7 +25,7 @@ public class SortedTreeSet<T> extends TreeSet<T> implements SortedSet<T>
 	@Override
 	public SortedSet<T> subset(T from, boolean isFromIncluded, T to, boolean isToIncluded)
 	{
-		SortedTreeSet<T> result = new SortedTreeSet<>();
+		SortedTreeSet<T> result = new SortedTreeSet<>(comparator);
 		int comparison;
 
 		Node<T> current = from != null ? getClosestNode(from) : getMinFrom(root);
