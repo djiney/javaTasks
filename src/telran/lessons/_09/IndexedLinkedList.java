@@ -10,8 +10,8 @@ import java.util.function.Predicate;
 @SuppressWarnings("unchecked")
 public class IndexedLinkedList<T> implements IndexedList<T>
 {
-	private Node<T> firstNode;
-	private Node<T> lastNode;
+	public Node<T> firstNode;
+	public Node<T> lastNode;
 
 	private int size = 0;
 
@@ -353,39 +353,44 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 
 		boolean hasLoop = false;
 
+		int loopLength = 0;
+
 		while (fastNode != null && fastNode.nextNode != null)
 		{
 			slowNode = slowNode.nextNode;
-			fastNode = fastNode.nextNode.nextNode;
+
+			if (!hasLoop) {
+				fastNode = fastNode.nextNode.nextNode;
+			} else {
+				loopLength++;
+			}
 
 			if (fastNode == slowNode) {
+				if (hasLoop) {
+					break;
+				}
 				hasLoop = true;
-				break;
 			}
 		}
 
 		if (hasLoop) {
-			Node<T> loopedNode = fastNode;
 			slowNode = firstNode;
+			fastNode = slowNode.nextNode;
 
 			int i = 0;
-			int loopLength;
 
-			while (true)
-			{
-				loopLength = 0;
-
-				do {
+			while (fastNode != slowNode) {
+				if (--loopLength > 0) {
 					fastNode = fastNode.nextNode;
-					if (fastNode.nextNode == slowNode) {
-						return i + loopLength;
-					}
-					loopLength++;
-				} while (fastNode != loopedNode);
+				} else {
+					fastNode = fastNode.nextNode;
+					slowNode = slowNode.nextNode;
+				}
 
-				slowNode = slowNode.nextNode;
 				i++;
 			}
+
+			return i;
 		}
 
 		return -1;

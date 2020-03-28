@@ -117,4 +117,64 @@ class IndexedLinkedListTest extends IndexedListTest
 		    assertEquals(value, expected[i++]);
 		}
 	}
+
+		@Test
+	public void testCommonLinked()
+	{
+		IndexedLinkedList<Integer> indexedList1 = (IndexedLinkedList<Integer>) list;
+
+		Integer[] numbers = {1, 2, 3, 4, 5, 7, 121, 23};
+		IndexedLinkedList<Integer> indexedList2 = new IndexedLinkedList<>(numbers);
+
+		IndexedLinkedList.Node<Integer> node = indexedList1.getNodeByIndex(2);
+		IndexedLinkedList.Node<Integer> commonNode = indexedList2.getNodeByIndex(5);
+
+		node.nextNode = commonNode;
+
+		assertEquals(commonNode, getFirstCommonNode(indexedList1, indexedList2));
+	}
+
+	public static <T> IndexedLinkedList.Node<T> getFirstCommonNode(IndexedLinkedList<T> firstList, IndexedLinkedList<T> secondList)
+	{
+		int firstListSize = getRealSize(firstList),
+			secondListSize = getRealSize(secondList);
+
+		if (firstListSize == firstList.size() && secondListSize == secondList.size()) {
+			return null;
+		}
+
+		int difference = Math.abs(firstListSize - secondListSize);
+
+		IndexedLinkedList.Node<T> firstNode = firstList.firstNode;
+		IndexedLinkedList.Node<T> secondNode = secondList.firstNode;
+
+		while (firstNode != secondNode)
+		{
+			if (difference-- > 0) {
+				if (firstListSize > secondListSize) {
+					firstNode = firstNode.nextNode;
+				} else {
+					secondNode = secondNode.nextNode;
+				}
+			} else {
+				firstNode = firstNode.nextNode;
+				secondNode = secondNode.nextNode;
+			}
+		}
+
+		return firstNode;
+	}
+
+	private static <T> int getRealSize(IndexedLinkedList<T> list)
+	{
+		IndexedLinkedList.Node<T> current = list.firstNode;
+		int realSize = 0;
+
+		while (current.nextNode != null) {
+			current = current.nextNode;
+			realSize++;
+		}
+
+		return realSize;
+	}
 }
