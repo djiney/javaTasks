@@ -110,11 +110,9 @@ class IndexedLinkedListTest extends IndexedListTest
 	{
 		((IndexedLinkedList<Integer>) list).reverse();
 
-		Integer[] expected = {30, 75, 70, -8, 10};
-		int i = 0;
-
+		int i = initialNumbers.length - 1;
 		for (Integer value : list) {
-		    assertEquals(value, expected[i++]);
+		    assertEquals(value, initialNumbers[i--]);
 		}
 	}
 
