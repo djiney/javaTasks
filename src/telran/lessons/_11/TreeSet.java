@@ -2,8 +2,7 @@ package telran.lessons._11;
 
 import telran.common.interfaces.Set;
 
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
@@ -31,6 +30,50 @@ public class TreeSet<T> implements Set<T>
 		for (T value : data) {
 		    add(value);
 		}
+	}
+
+	public int height()
+	{
+		return height(root);
+	}
+
+	private int height(Node<T> node)
+	{
+		if (node == null) {
+			return 0;
+		}
+
+		return 1 + Math.max(height(node.left), height(node.right));
+	}
+
+	public int width()
+	{
+		return width(root);
+	}
+
+	private int width(Node<T> node)
+	{
+		if (node == null) {
+			return 0;
+		}
+
+		if (node.isFinal()) {
+			return 1;
+		}
+
+		return width(node.right) + width(node.left);
+	}
+
+	public void print()
+	{
+		Printer printer = new Printer();
+		printer.print();
+	}
+
+	public void printRotated()
+	{
+		Printer printer = new Printer();
+		printer.printRotated();
 	}
 
 	@Override
@@ -334,6 +377,57 @@ public class TreeSet<T> implements Set<T>
 			if (newChild != null) {
 				newChild.parent = this;
 			}
+		}
+	}
+
+	protected class Printer
+	{
+		ArrayList<ArrayList<T>> list = new ArrayList<>();
+
+		public void print()
+		{
+			loadList(root, 0);
+			printList();
+		}
+
+		public void printList()
+		{
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(i + " | " + list.get(i).toString());
+			}
+		}
+
+		private void loadList(Node<T> node, int level)
+		{
+			if (node != null) {
+				if (list.size() <= level) {
+					list.add(level, new ArrayList<>());
+				}
+
+				loadList(node.left, level + 1);
+				loadList(node.right, level + 1);
+
+				list.get(level).add(node.value);
+			}
+		}
+
+		public void printRotated()
+		{
+			printRotated(root, 0);
+		}
+
+		private void printRotated(Node<T> node, int level)
+		{
+			if (node != null) {
+				printRotated(node.right, level + 1);
+				printRotated(node.value, level);
+				printRotated(node.left, level + 1);
+			}
+		}
+
+		private void printRotated(T value, int level)
+		{
+			System.out.println("   ".repeat(level) + value);
 		}
 	}
 }
