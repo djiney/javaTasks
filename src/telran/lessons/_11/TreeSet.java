@@ -382,32 +382,48 @@ public class TreeSet<T> implements Set<T>
 
 	protected class Printer
 	{
-		ArrayList<ArrayList<T>> list = new ArrayList<>();
+		ArrayList<ArrayList<ListNode>> list = new ArrayList<>();
+		int currentIndex = 0;
 
 		public void print()
 		{
-			loadList(root, 0);
+			parseTree(root, 0);
 			printList();
 		}
 
-		public void printList()
+		private void printList()
 		{
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println(i + " | " + list.get(i).toString());
+			StringBuilder value;
+			int lastIndex;
+
+			for (ArrayList<ListNode> listNodes : list)
+			{
+				value = new StringBuilder();
+				lastIndex = 0;
+
+				for (ListNode node : listNodes)
+				{
+					value.append("  ".repeat(node.index - lastIndex)).append(node.value);
+					lastIndex = node.index;
+				}
+
+				System.out.println(value);
 			}
 		}
 
-		private void loadList(Node<T> node, int level)
+		private void parseTree(Node<T> node, int level)
 		{
 			if (node != null) {
 				if (list.size() <= level) {
 					list.add(level, new ArrayList<>());
 				}
 
-				loadList(node.left, level + 1);
-				loadList(node.right, level + 1);
+				ListNode listNode = new ListNode(node.value);
+				list.get(level).add(listNode);
 
-				list.get(level).add(node.value);
+				parseTree(node.left, level + 1);
+				listNode.index = currentIndex++;
+				parseTree(node.right, level + 1);
 			}
 		}
 
@@ -428,6 +444,17 @@ public class TreeSet<T> implements Set<T>
 		private void printRotated(T value, int level)
 		{
 			System.out.println("   ".repeat(level) + value);
+		}
+
+		private class ListNode
+		{
+			T value;
+			int index;
+
+			public ListNode(T value)
+			{
+				this.value = value;
+			}
 		}
 	}
 }
