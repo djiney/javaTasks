@@ -18,7 +18,7 @@ public class Main
 
 	private static boolean find(String string, String substring, int index)
 	{
-		if (!isDataValid(string, substring)) {
+		if (string.length() <= 0 || substring.length() <= 0 || string.length() < substring.length()) {
 			return false;
 		}
 
@@ -31,10 +31,5 @@ public class Main
 		}
 
 		return find(string.substring(1), substring, 0);
-	}
-
-	private static boolean isDataValid(String string, String substring)
-	{
-		return string.length() > 0 && substring.length() > 0 && string.length() >= substring.length();
 	}
 }
