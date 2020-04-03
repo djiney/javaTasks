@@ -14,65 +14,41 @@ public class Main
 
 	public static boolean isSubstring(String string, String substring)
 	{
-		SubstringSearch search = new SubstringSearch(string, substring);
-		return search.find();
+		if (!isDataValid(string, substring)) {
+			return false;
+		}
+
+		return find(string, substring, 0);
 	}
 
-	private static class SubstringSearch
+	private static boolean isDataValid(String string, String substring)
 	{
-		String string;
-		String substring;
+		return string.length() > 0 && substring.length() > 0 && string.length() >= substring.length();
+	}
 
-		int stringLength;
-		int substringLength;
-
-		public SubstringSearch(String string, String substring)
-		{
-			this.string = string;
-			this.substring = substring;
-
-			stringLength = string.length();
-			substringLength = substring.length();
+	private static boolean find(String string, String substring, int index)
+	{
+		if (index >= string.length()) {
+			return false;
 		}
 
-		public boolean find()
-		{
-			if (!isDataValid()) {
-				return false;
-			}
-
-			return find(0);
+		if (checkSubstring(string, substring, index, 0)) {
+			return true;
 		}
 
-		private boolean isDataValid()
-		{
-			return substringLength > 0 && stringLength > 0 && stringLength >= substringLength;
+		return find(string, substring, index + 1);
+	}
+
+	private static boolean checkSubstring(String string, String substring, int stringIndex, int substringIndex)
+	{
+		if (substringIndex >= substring.length()) {
+			return true;
 		}
 
-		private boolean find(int index)
-		{
-			if (index >= stringLength) {
-				return false;
-			}
-
-			if (checkSubstring(index, 0)) {
-				return true;
-			}
-
-			return find(index + 1);
+		if (string.charAt(stringIndex) != substring.charAt(substringIndex)) {
+			return false;
 		}
 
-		private boolean checkSubstring(int stringIndex, int substringIndex)
-		{
-			if (substringIndex >= substringLength) {
-				return true;
-			}
-
-			if (string.charAt(stringIndex) != substring.charAt(substringIndex)) {
-				return false;
-			}
-
-			return checkSubstring(stringIndex + 1, substringIndex + 1);
-		}
+		return checkSubstring(string, substring, stringIndex + 1, substringIndex + 1);
 	}
 }
