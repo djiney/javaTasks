@@ -17,7 +17,7 @@ public class Main
 			return true;
 		}
 
-		if (string.length() <= 0 || string.length() < substring.length()) {
+		if (string.length() < substring.length()) {
 			return false;
 		}
 
