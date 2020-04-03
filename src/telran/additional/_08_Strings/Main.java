@@ -13,23 +13,18 @@ public class Main
 	 */
 	public static boolean isSubstring(String string, String substring)
 	{
-		return find(string, substring, 0);
-	}
-
-	private static boolean find(String string, String substring, int index)
-	{
-		if (string.length() <= 0 || substring.length() <= 0 || string.length() < substring.length()) {
-			return false;
-		}
-
-		if (index >= substring.length()) {
+		if (substring.length() == 0) {
 			return true;
 		}
 
-		if (string.charAt(index) == substring.charAt(index)) {
-			return find(string, substring, index + 1);
+		if (string.length() <= 0 || string.length() < substring.length()) {
+			return false;
 		}
 
-		return find(string.substring(1), substring, 0);
+		if (string.charAt(0) == substring.charAt(0) && isSubstring(string.substring(1), substring.substring(1))) {
+			return true;
+		}
+
+		return isSubstring(string.substring(1), substring);
 	}
 }
