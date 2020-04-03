@@ -22,6 +22,7 @@ class MainTest
 		assertTrue(Main.isSubstring(source, " "));
 
 		assertFalse(Main.isSubstring(source, "дезоксирибонуклеиновая кислота"));
+		assertFalse(Main.isSubstring(source, "Дезоксирибонуклеиновая кислота "));
 		assertFalse(Main.isSubstring(source, ""));
 
 		assertFalse(Main.isSubstring("", "котлетка"));
