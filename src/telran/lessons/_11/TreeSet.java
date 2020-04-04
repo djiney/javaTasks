@@ -333,7 +333,7 @@ public class TreeSet<T> implements Set<T>
 		public Node<T> left;
 		public Node<T> right;
 
-		Node(T object)
+		public Node(T object)
 		{
 			value = object;
 		}
@@ -403,8 +403,8 @@ public class TreeSet<T> implements Set<T>
 
 				for (ListNode node : listNodes)
 				{
-					value.append("  ".repeat(node.index - lastIndex)).append(node.value);
-					lastIndex = node.index;
+					value.append(" ".repeat(node.index - lastIndex)).append(node.value);
+					lastIndex = node.index + 1;
 				}
 
 				System.out.println(value);

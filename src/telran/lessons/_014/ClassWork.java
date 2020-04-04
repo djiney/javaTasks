@@ -14,15 +14,7 @@ public class ClassWork
 		Integer[] numbers = getShuffledArray(10);
 		TreeSet<Integer> set = new TreeSet<>(numbers);
 
-		System.out.println("----PRINT ROTATED------------------------------------------");
-		set.printRotated();
-		System.out.println("----PRINT------------------------------------------");
 		set.print();
-		System.out.println("----HEIGHT------------------------------------------");
-		System.out.println(set.height());
-		System.out.println("----WIDTH-------------------------------------------");
-		System.out.println(set.width());
-
 
 		ArrayList<ArrayList<Integer>> list = new ArrayList<>();
 	}
