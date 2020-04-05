@@ -279,20 +279,21 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		return originalSize > size;
 	}
 
-	public void setLoop(int indexFrom, int indexTo)
+	public Node<T> setLoop(int indexFrom, int indexTo)
 	{
 		if (isIndexInValid(indexFrom, indexTo) || indexFrom < indexTo) {
-			return;
+			return null;
 		}
 
 		Node<T> nodeFrom = getNodeByIndex(indexFrom);
 		Node<T> nodeTo = getNodeByIndex(indexTo);
 
 		if (nodeFrom == null || nodeTo == null) {
-			return;
+			return null;
 		}
 
 		nodeFrom.nextNode = nodeTo;
+		return nodeFrom;
 	}
 
 	public boolean hasLoop()
@@ -335,6 +336,40 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 		if (firstNode != lastNode && firstNode.nextNode != lastNode.previousNode) {
 			swapNodeValue(firstNode.nextNode, lastNode.previousNode);
 		}
+	}
+
+	/**
+	 * Write recursion method finding out if there is loop in a linked list.
+	 * If so to return reference to the node causing the loop if no - null
+	 * public Node<T> getLoopedNode() { getLoopedNode(head)} will be enough
+	 */
+	public Node<T> getLoopedNodeRecursive() {
+		return getLoopedNodeRecursive(firstNode);
+	}
+
+	private Node<T> getLoopedNodeRecursive(Node<T> node)
+	{
+		if (node == null || node.nextNode == null) {
+			return null;
+		}
+
+		if (node.nextNode.value == null) {
+			return node;
+		}
+
+		if (node.nextNode.nextNode != null && node.nextNode.nextNode.value == null) {
+			return node;
+		}
+
+		Node<T> markNode = new Node<>(null);
+
+		Node<T> temp = node.nextNode;
+		node.nextNode = markNode;
+
+		Node<T> result = getLoopedNodeRecursive(temp);
+
+		node.nextNode = temp;
+		return result;
 	}
 
 	public int getLoopedNode()

@@ -90,9 +90,9 @@ class IndexedLinkedListTest extends IndexedListTest
 		int loopFrom = 4;
 		int loopTo = 4;
 
-		indexedList.setLoop(loopFrom, loopTo);
+		IndexedLinkedList.Node<Integer> node = indexedList.setLoop(loopFrom, loopTo);
 		assertTrue(indexedList.hasLoop());
-		assertEquals(loopFrom, indexedList.getLoopedNode());
+		assertEquals(node, indexedList.getLoopedNodeRecursive());
 
 		indexedList.clearLoop();
 		assertFalse(indexedList.hasLoop());
@@ -100,9 +100,9 @@ class IndexedLinkedListTest extends IndexedListTest
 		loopFrom = 3;
 		loopTo = 1;
 
-		indexedList.setLoop(loopFrom, loopTo);
+		node = indexedList.setLoop(loopFrom, loopTo);
 		assertTrue(indexedList.hasLoop());
-		assertEquals(loopFrom, indexedList.getLoopedNode());
+		assertEquals(node, indexedList.getLoopedNodeRecursive());
 	}
 
 	@Test
