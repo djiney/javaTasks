@@ -15,6 +15,12 @@ class EncoderTest
 		Encoder encoder = new Encoder("9876543210");
 		assertEquals("876", encoder.code(123));
 
+		encoder = new Encoder("0123456789abcdef");
+		assertEquals("7b", encoder.code(123));
+
+		encoder = new Encoder("0123456789");
+		assertEquals("123", encoder.code(123));
+
 		encoder = new Encoder("+-");
 		assertEquals("-+-", encoder.code(5));
 
