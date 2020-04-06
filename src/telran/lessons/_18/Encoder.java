@@ -44,8 +44,6 @@ public class Encoder
 			result.insert(0, encodingString.charAt(remainder));
 		}
 
-		System.out.println(result.toString());
-
 		return result.toString();
 	}
 }
