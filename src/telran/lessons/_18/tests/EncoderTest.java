@@ -31,6 +31,18 @@ class EncoderTest
 	}
 
 	@Test
+	public void testStringEncoding() throws BadAttributeValueExpException
+	{
+		Encoder encoder = new Encoder("+-");
+
+		String string = "ace";
+		String encodedString = "+--++++-+--+++--+--++-+-";
+
+		assertEquals(encodedString, encoder.codeText(string));
+		assertEquals(string, encoder.decodeText(encodedString));
+	}
+
+	@Test
 	public void testBase64() throws BadAttributeValueExpException
 	{
 		testBase64("ace");

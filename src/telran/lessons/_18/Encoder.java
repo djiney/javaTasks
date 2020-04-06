@@ -9,8 +9,12 @@ public class Encoder
 {
 	public static final String BASE_64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 	public static final String BASE_64_URL_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+	public static final String BASE_64_MARK_SYMBOL = "=";
 
+	String markSymbol = BASE_64_MARK_SYMBOL;
 	String alphabet;
+
+	int bitCount;
 	int radix;
 
 	ArrayList<String> list;
@@ -26,6 +30,12 @@ public class Encoder
 
 		this.alphabet = alphabet;
 		radix = alphabet.length();
+		bitCount = (int) (Math.log(radix) / Math.log(2));
+	}
+
+	public void setMarkSymbol(String symbol)
+	{
+		markSymbol = symbol;
 	}
 
 	private void validate(String string) throws BadAttributeValueExpException
@@ -65,8 +75,8 @@ public class Encoder
 			sequence.append(convertToBytes(text.charAt(i), 8));
 		}
 
-		int padding = breakSequence(sequence, 6);
-		String postfix = "=".repeat(padding / 2);
+		int padding = breakSequence(sequence, bitCount);
+		String postfix = markSymbol.repeat(padding / 2);
 
 		StringBuilder result = new StringBuilder();
 		for (String symbol : list) {
@@ -86,7 +96,7 @@ public class Encoder
 			if (index < 0) {
 				sequence.setLength(sequence.length() - 2);
 			} else {
-				sequence.append(convertToBytes(index, 6));
+				sequence.append(convertToBytes(index, bitCount));
 			}
 		}
 
