@@ -33,16 +33,18 @@ public class Encoder
 
 	public String code(int number)
 	{
-		String convertedNumber = Integer.toString(number, radix);
-
 		StringBuilder result = new StringBuilder();
-		int index;
+		int remainder;
 
-		for (int i = 0; i < convertedNumber.length(); i++)
+		while (number != 0)
 		{
-			index = Character.getNumericValue(convertedNumber.charAt(i));
-			result.append(encodingString.charAt(index));
+			remainder = number % radix;
+			number = (number - remainder) / radix;
+
+			result.insert(0, encodingString.charAt(remainder));
 		}
+
+		System.out.println(result.toString());
 
 		return result.toString();
 	}
