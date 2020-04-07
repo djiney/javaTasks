@@ -67,14 +67,26 @@ public class Encoder
 		return result.toString();
 	}
 
+	public int decode(String string) throws BadAttributeValueExpException
+	{
+		return decode(string, true);
+	}
 
-	public int decode(String string)
+	public int decode(String string, boolean skipUnknown) throws BadAttributeValueExpException
 	{
 		int result = 0;
 		int index;
 
 		for (int i = 0; i < string.length(); i++) {
 			index = alphabet.indexOf(string.charAt(i));
+			if (index < 0) {
+				if (skipUnknown) {
+					continue;
+				}
+
+				throw new BadAttributeValueExpException(string);
+			}
+
 			result = result * radix + index;
 		}
 

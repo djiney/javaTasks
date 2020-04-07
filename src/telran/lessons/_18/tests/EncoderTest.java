@@ -53,6 +53,11 @@ class EncoderTest
 
 		assertThrows(BadAttributeValueExpException.class, () -> new Encoder("+"));
 		assertThrows(BadAttributeValueExpException.class, () -> new Encoder("++"));
+
+		Encoder newEncoder = new Encoder("0123456789");
+		assertEquals(0, encoder.decode("q"));
+
+		assertThrows(BadAttributeValueExpException.class, () -> newEncoder.decode("q", false));
 	}
 
 	@Test
