@@ -57,13 +57,12 @@ public class Encoder
 		StringBuilder result = new StringBuilder();
 		int remainder;
 
-		while (number != 0)
-		{
+		do {
 			remainder = number % radix;
 			number = (number - remainder) / radix;
 
 			result.insert(0, alphabet.charAt(remainder));
-		}
+		} while (number != 0);
 
 		return result.toString();
 	}

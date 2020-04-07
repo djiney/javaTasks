@@ -26,6 +26,9 @@ class EncoderTest
 		encoder = new Encoder("+-");
 		assertEquals("-+-", encoder.code(5));
 
+		encoder = new Encoder("12345");
+		assertEquals("1", encoder.code(0));
+
 		assertThrows(BadAttributeValueExpException.class, () -> new Encoder("+"));
 		assertThrows(BadAttributeValueExpException.class, () -> new Encoder("++"));
 	}
