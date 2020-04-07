@@ -34,6 +34,28 @@ class EncoderTest
 	}
 
 	@Test
+	public void testDecode() throws BadAttributeValueExpException
+	{
+		Encoder encoder = new Encoder("9876543210");
+		assertEquals(123, encoder.decode("876"));
+
+		encoder = new Encoder("0123456789abcdef");
+		assertEquals(123, encoder.decode("7b"));
+
+		encoder = new Encoder("0123456789");
+		assertEquals(123, encoder.decode("123"));
+
+		encoder = new Encoder("+-");
+		assertEquals(5, encoder.decode("-+-"));
+
+		encoder = new Encoder("12345");
+		assertEquals(0, encoder.decode("1"));
+
+		assertThrows(BadAttributeValueExpException.class, () -> new Encoder("+"));
+		assertThrows(BadAttributeValueExpException.class, () -> new Encoder("++"));
+	}
+
+	@Test
 	public void testStringEncoding() throws BadAttributeValueExpException
 	{
 		Encoder encoder = new Encoder("+-");

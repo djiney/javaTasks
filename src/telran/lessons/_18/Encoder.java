@@ -67,6 +67,20 @@ public class Encoder
 		return result.toString();
 	}
 
+
+	public int decode(String string)
+	{
+		int result = 0;
+		int index;
+
+		for (int i = 0; i < string.length(); i++) {
+			index = alphabet.indexOf(string.charAt(i));
+			result = result * radix + index;
+		}
+
+		return result;
+	}
+
 	public String codeText(String text)
 	{
 		StringBuilder sequence = new StringBuilder();
