@@ -8,13 +8,10 @@ public class JoinStringsImplBuilder implements JoinStrings
 	public String join(String[] strings, String delimiter)
 	{
 		StringBuilder result = new StringBuilder();
-
-		for (int i = 0; i < strings.length; i++)
-		{
-			if (i != 0) result.append(delimiter);
-			result.append(strings[i]);
+		for (String string : strings) {
+			result.append(delimiter).append(string);
 		}
 
-		return result.toString();
+		return result.substring(delimiter.length());
 	}
 }

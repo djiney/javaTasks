@@ -9,13 +9,10 @@ public class JoinStringsImplString implements JoinStrings
 	public String join(String[] strings, String delimiter)
 	{
 		String result = "";
-
-		for (int i = 0; i < strings.length; i++)
-		{
-			if (i != 0) result += delimiter;
-			result += strings[i];
+		for (String string : strings) {
+			result += delimiter + string;
 		}
 
-		return result;
+		return result.substring(delimiter.length());
 	}
 }

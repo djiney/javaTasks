@@ -8,7 +8,7 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		int runsAmount = 10000;
+		int runsAmount = 1000;
 		int stringsAmount = 1000;
 
 		JoinStringsPerformance concatenationTest = new JoinStringsPerformance("Concatenation", runsAmount, new JoinStringsImplString(), stringsAmount);
