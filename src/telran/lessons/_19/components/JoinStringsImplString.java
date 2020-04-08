@@ -8,11 +8,16 @@ public class JoinStringsImplString implements JoinStrings
 	@Override
 	public String join(String[] strings, String delimiter)
 	{
-		String result = "";
-		for (String string : strings) {
-			result += delimiter + string;
+		if (strings.length == 0) {
+			return "";
 		}
 
-		return result.substring(delimiter.length());
+		String result = strings[0];
+		for (int i = 1; i < strings.length; i++)
+		{
+			result += delimiter + strings[i];
+		}
+
+		return result;
 	}
 }
