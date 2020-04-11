@@ -14,7 +14,10 @@ class MainTest
 
 		assertFalse(Main.isSubstring(source, "котлетка"));
 
+		assertFalse(Main.isSubstring("aba", "aa"));
+
 		assertTrue(Main.isSubstring(source, "кислота"));
+		assertTrue(Main.isSubstring(source, ""));
 		assertTrue(Main.isSubstring(source, "Дезоксирибонуклеиновая"));
 		assertTrue(Main.isSubstring(source, "Дезокси"));
 		assertTrue(Main.isSubstring(source, "ирибонукле"));

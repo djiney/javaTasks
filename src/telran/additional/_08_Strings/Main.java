@@ -21,8 +21,12 @@ public class Main
 			return false;
 		}
 
-		if (string.charAt(0) == substring.charAt(0) && isSubstring(string.substring(1), substring.substring(1))) {
-			return true;
+		if (string.charAt(0) == substring.charAt(0)) {
+			if (substring.length() == 1) {
+				return true;
+			} else if (string.charAt(1) == substring.charAt(1) && isSubstring(string.substring(1), substring.substring(1))) {
+				return true;
+			}
 		}
 
 		return isSubstring(string.substring(1), substring);
