@@ -146,7 +146,7 @@ public class IndexedLinkedList<T> implements IndexedList<T>
 			return null;
 		}
 
-		return index < size / 2 && !hasLoop() ? getNodeFromLeft(index) : getNodeFromRight(index);
+		return index < size / 2 ? getNodeFromLeft(index) : getNodeFromRight(index);
 	}
 
 	private Node<T> getNodeFromLeft(int index)
