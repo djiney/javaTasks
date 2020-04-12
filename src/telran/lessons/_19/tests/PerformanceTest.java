@@ -18,7 +18,7 @@ public abstract class PerformanceTest
 			runTest();
 		}
 
-		double endTime = System.currentTimeMillis();
+		long endTime = System.currentTimeMillis();
 
 		System.out.format(
 			"Test %s [total runs: %d] performed in %f milliseconds",
