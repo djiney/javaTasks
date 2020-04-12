@@ -45,12 +45,7 @@ public class IndexedListOperations extends PerformanceTest
 
 	private void runGetAtRandomIndex()
 	{
-		callRandomGet();
-		callRandomGet();
-	}
-
-	private void callRandomGet()
-	{
+		list.get(getChance(numbersAmount));
 		list.get(getChance(numbersAmount));
 	}
 
