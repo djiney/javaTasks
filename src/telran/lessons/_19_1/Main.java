@@ -1,8 +1,8 @@
-package telran.lessons._20;
+package telran.lessons._19_1;
 
 import telran.common.Array;
 import telran.lessons._09.IndexedLinkedList;
-import telran.lessons._20.tests.IndexedListOperations;
+import telran.lessons._19_1.tests.IndexedListOperations;
 
 public class Main
 {

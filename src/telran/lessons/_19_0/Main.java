@@ -1,8 +1,8 @@
-package telran.lessons._19;
+package telran.lessons._19_0;
 
-import telran.lessons._19.components.JoinStringsImplBuilder;
-import telran.lessons._19.components.JoinStringsImplString;
-import telran.lessons._19.tests.JoinStringsPerformance;
+import telran.lessons._19_0.components.JoinStringsImplBuilder;
+import telran.lessons._19_0.components.JoinStringsImplString;
+import telran.lessons._19_0.tests.JoinStringsPerformance;
 
 public class Main
 {

@@ -1,6 +1,6 @@
-package telran.lessons._19.components;
+package telran.lessons._19_0.components;
 
-import telran.lessons._19.tests.JoinStrings;
+import telran.lessons._19_0.tests.JoinStrings;
 
 public class JoinStringsImplBuilder implements JoinStrings
 {

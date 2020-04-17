@@ -1,8 +1,8 @@
-package telran.lessons._19.tests;
+package telran.lessons._19_0.tests;
 
 import org.junit.jupiter.api.Test;
-import telran.lessons._19.components.JoinStringsImplBuilder;
-import telran.lessons._19.components.JoinStringsImplString;
+import telran.lessons._19_0.components.JoinStringsImplBuilder;
+import telran.lessons._19_0.components.JoinStringsImplString;
 
 import static org.junit.jupiter.api.Assertions.*;
 

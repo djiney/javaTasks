@@ -1,7 +1,7 @@
-package telran.lessons._20.tests;
+package telran.lessons._19_1.tests;
 
 import telran.common.interfaces.IndexedList;
-import telran.lessons._19.tests.PerformanceTest;
+import telran.lessons._19_0.tests.PerformanceTest;
 
 public class IndexedListOperations extends PerformanceTest
 {
