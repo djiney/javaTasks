@@ -19,11 +19,16 @@ public class RegularExpressions
 
 	public static String email()
 	{
-		return "";
+		return "[^\\s,@]*@[a-zA-Z0-9]+(-?[a-zA-Z0-9])*(\\.[a-zA-Z](-?[a-zA-Z])*[a-zA-Z]?){1,3}";
 	}
 
-	public static String phoneNumber()
+	public static String arithmeticExpression()
 	{
-		return "";
+		return "\\s*([0-9]\\s*[\\+\\-\\*\\/]?\\s*)*;?\\s*";
+	}
+
+	public static String phone()
+	{
+		return "(\\+972-?|0)5[0|2-8](-?\\d){7}";
 	}
 }
