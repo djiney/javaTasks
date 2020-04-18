@@ -24,7 +24,7 @@ public class RegularExpressions
 
 	public static String arithmeticExpression()
 	{
-		return "\\s*([0-9]\\s*[\\+\\-\\*\\/]?\\s*)*;?\\s*";
+		return "\\s*([0-9]\\s*[-+*/]?\\s*)*;?\\s*";
 	}
 
 	public static String phone()
