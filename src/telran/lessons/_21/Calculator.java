@@ -45,22 +45,20 @@ public class Calculator
 	public static boolean checkParenthesis(String expression)
 	{
 		// Подразумеваем, что в строке нет ничего, кроме скобок
-		expression = expression.replaceAll("[^(){}\\[\\]]", "");
+		expression = expression.replaceAll("[^()]", "");
 		if (expression.length() % 2 != 0) {
 			return false;
 		}
 
-		String newExpression = "";
-
-		while (true) {
-			newExpression = expression.replaceAll("\\(\\)|\\{}|\\[]", "");
-			if (expression.equals(newExpression)) {
-				break;
+		int balance = 0;
+		for (char value : expression.toCharArray()) {
+		    if (value == '(') {
+		    	balance++;
+		    } if (value == ')' && --balance < 0) {
+		    	break;
 			}
-
-			expression = newExpression;
 		}
 
-		return expression.length() == 0;
+		return balance == 0;
 	}
 }

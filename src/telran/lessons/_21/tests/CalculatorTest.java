@@ -31,9 +31,9 @@ class CalculatorTest
 		assertTrue(Calculator.checkParenthesis("()"));
 		assertTrue(Calculator.checkParenthesis("(())"));
 		assertTrue(Calculator.checkParenthesis("(()())"));
-		assertTrue(Calculator.checkParenthesis("({}[])"));
+		assertTrue(Calculator.checkParenthesis("(()()((())))"));
 
-		assertFalse(Calculator.checkParenthesis("({)"));
+		assertFalse(Calculator.checkParenthesis("(()"));
 		assertFalse(Calculator.checkParenthesis("(()"));
 		assertFalse(Calculator.checkParenthesis("())"));
 		assertFalse(Calculator.checkParenthesis("(()()"));
