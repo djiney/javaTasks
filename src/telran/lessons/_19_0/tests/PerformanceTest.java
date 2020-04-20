@@ -21,10 +21,10 @@ public abstract class PerformanceTest
 		long endTime = System.currentTimeMillis();
 
 		System.out.format(
-			"Test %s [total runs: %d] performed in %f milliseconds",
+			"Test %s [total runs: %d] performed in %d milliseconds",
 			testName,
 			runsAmount,
-			endTime - startTime
+			(int) (endTime - startTime)
 		);
 		System.out.println();
 	}
