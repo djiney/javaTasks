@@ -29,6 +29,6 @@ public class RegularExpressions
 
 	public static String phone()
 	{
-		return "(\\+972-?|0)5[0|2-8](-?\\d){7}";
+		return "(\\+972-?|0)5[02-8](-?\\d){7}";
 	}
 }
