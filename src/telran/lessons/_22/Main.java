@@ -20,7 +20,7 @@ public class Main
 				right = middle - 1;
 			}
 
-			middle = (left + right) / 2;
+			middle = left / 2 + right / 2;
 			array = null;
 		}
 
