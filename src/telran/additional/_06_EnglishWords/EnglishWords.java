@@ -1,6 +1,8 @@
 package telran.additional._06_EnglishWords;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -9,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 /**
  * Develop class EnglishWords with method:
@@ -28,7 +31,7 @@ public class EnglishWords
 {
 	private static final String WORDS_PATH = "./files/dictionary.csv";
 
-	private TreeSet<String> treeSet;
+	private final TreeSet<String> treeSet = new TreeSet<>();
 
 	public EnglishWords()
 	{
@@ -43,24 +46,15 @@ public class EnglishWords
 
 	public int getWordsCount()
 	{
-		return this.treeSet.size();
+		return treeSet.size();
 	}
 
 	private void loadVocabulary()
 	{
-		this.treeSet = new TreeSet<>();
-
 		Path pathToFile = Paths.get(EnglishWords.WORDS_PATH);
-		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII))
-		{
-			String line = br.readLine();
 
-			while (line != null)
-			{
-				this.treeSet.add(line);
-				line = br.readLine();
-			}
-
+		try (Stream<String> stream = Files.lines(pathToFile)) {
+			stream.forEach(treeSet::add);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
