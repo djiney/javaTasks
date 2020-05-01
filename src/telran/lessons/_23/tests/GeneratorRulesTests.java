@@ -6,12 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import telran.lessons._23.exceptions.RangeException;
 import telran.lessons._23.exceptions.RuleException;
-import telran.lessons._23.numbers.DividerRule;
-import telran.lessons._23.numbers.Generator;
+import telran.lessons._23.numbers.*;
 
 class GeneratorRulesTests
 {
 	DividerRule divider10 = new DividerRule(10);
+	PrimeNumbersRule primeDivider = new PrimeNumbersRule();
+
 	int min = 100, max = 10000, nNumbers = 10000;
 
 	@Test
@@ -56,10 +57,43 @@ class GeneratorRulesTests
 		checkExceptionDelta(100, min, 99, -10);
 	}
 
+	@Test
+	void testPrimeDivider()
+	{
+		assertThrows(RangeException.class, () -> primeDivider.checkRule(12, 32, 36));
+		assertThrows(RangeException.class, () -> primeDivider.checkRule(12, 19, 5));
+
+		assertDoesNotThrow(() -> primeDivider.checkRule(19, 0, 100));
+		assertDoesNotThrow(() -> primeDivider.checkRule(19, 19, 19));
+
+		checkExceptionPrime(20, 0, max, -1);
+		checkExceptionPrime(28, 0, max, 1);
+
+		checkExceptionPrime(36, 38, max, 5);
+		checkExceptionPrime(38, 38, max, 3);
+
+		checkExceptionPrime(-80, 0, max, 82);
+		checkExceptionPrime(101, 0, 100, -4);
+	}
+
 	private void checkExceptionDelta(int number, int min, int max, int delta)
 	{
-		try {
+		checkExceptionRule(() -> {
 			divider10.checkRule(number, min, max);
+		}, delta);
+	}
+
+	private void checkExceptionPrime(int number, int min, int max, int delta)
+	{
+		checkExceptionRule(() -> {
+			primeDivider.checkRule(number, min, max);
+		}, delta);
+	}
+
+	private void checkExceptionRule(RuleCheck function, int delta)
+	{
+		try {
+			function.run();
 			fail("Expected RuleException");
 		} catch (RuleException e) {
 			assertEquals(delta, e.getDelta());
