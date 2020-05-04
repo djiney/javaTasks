@@ -2,10 +2,10 @@ package telran.lessons._25;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 
 public class DateTimeOperationsAppl
 {
@@ -26,19 +26,13 @@ public class DateTimeOperationsAppl
 		LocalDate birthDate = parseDate(birthDateString);
 		LocalDate startDate = LocalDate.now();
 
-		long years = ChronoUnit.YEARS.between(birthDate, startDate);
-		startDate = startDate.minus(years, ChronoUnit.YEARS);
-
-		long months = ChronoUnit.MONTHS.between(birthDate, startDate);
-		startDate = startDate.minus(months, ChronoUnit.MONTHS);
-
-		long days = ChronoUnit.DAYS.between(birthDate, startDate);
+		Period period = Period.between(birthDate, startDate);
 
 		System.out.printf(
 			"Years: %d\nMonths: %d\nDays: %d\n",
-			years,
-			months,
-			days
+			period.getYears(),
+			period.getMonths(),
+			period.getDays()
 		);
 	}
 
