@@ -99,4 +99,9 @@ class GeneratorRulesTests
 			assertEquals(delta, e.getDelta());
 		}
 	}
+
+	@FunctionalInterface
+	private interface RuleCheck {
+		void run() throws RuleException;
+	}
 }
