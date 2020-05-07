@@ -14,12 +14,9 @@ public class TreeSetNumbersBox extends SetNumberBox
 	@Override
 	public int removeNumbersInRange(int from, int to)
 	{
-		TreeSet<Integer> oldData = (TreeSet<Integer>) data;
+		int oldSize = size();
+		((TreeSet<Integer>) data).subSet(from, true, to, true).clear();
 
-		data = initCollection();
-		data.addAll(oldData.headSet(from, false));
-		data.addAll(oldData.tailSet(to, false));
-
-		return oldData.size() - data.size();
+		return oldSize - data.size();
 	}
 }
