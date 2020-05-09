@@ -6,21 +6,20 @@ public class EmployeeFactory
 {
 	public Employee replaceCompany(Employee oldEmployee, String newCompany)
 	{
-		return new Employee(
-			oldEmployee.getId(),
-			oldEmployee.getSalary(),
-			newCompany,
-			oldEmployee.getBirthYear(),
-			oldEmployee.getName()
-		);
+		return replaceData(oldEmployee, newCompany, oldEmployee.getSalary());
 	}
 
 	public Employee replaceSalary(Employee oldEmployee, int newSalary)
 	{
+		return replaceData(oldEmployee, oldEmployee.getCompany(), newSalary);
+	}
+
+	private Employee replaceData(Employee oldEmployee, String newCompany, int newSalary)
+	{
 		return new Employee(
 			oldEmployee.getId(),
 			newSalary,
-			oldEmployee.getCompany(),
+			newCompany,
 			oldEmployee.getBirthYear(),
 			oldEmployee.getName()
 		);
