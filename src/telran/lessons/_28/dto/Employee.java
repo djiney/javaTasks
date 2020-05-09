@@ -8,8 +8,8 @@ public class Employee
 	private final String name;
 	private final LocalDate birthYear;
 
-	private int salary;
-	private String company;
+	private final int salary;
+	private final String company;
 
 	public Employee(long id, int salary, String company, LocalDate birthYear, String name)
 	{
@@ -30,16 +30,6 @@ public class Employee
 			", birthYear=" + birthYear +
 			", name='" + name + '\'' +
 			'}';
-	}
-
-	public void setSalary(int salary)
-	{
-		this.salary = salary;
-	}
-
-	public void setCompany(String company)
-	{
-		this.company = company;
 	}
 
 	public long getId()

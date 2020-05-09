@@ -3,6 +3,7 @@ package telran.lessons._28.service;
 import telran.lessons._28.api.EmployeesService;
 import telran.lessons._28.dto.Employee;
 import telran.lessons._28.dto.EmployeesReturnCodes;
+import telran.lessons._28.factories.EmployeeFactory;
 
 import java.util.*;
 
@@ -12,6 +13,8 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 	private final HashMap<String, List<Employee>> employeesCompany = new HashMap<>();
 	private final TreeMap<Integer, List<Employee>> employeesAge = new TreeMap<>();
 	private final TreeMap<Integer, List<Employee>> employeesSalary = new TreeMap<>();
+
+	private final EmployeeFactory factory = new EmployeeFactory();
 
 	@Override
 	public EmployeesReturnCodes addEmployee(Employee employee)
@@ -43,8 +46,8 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 	public EmployeesReturnCodes updateCompany(long id, String newCompany)
 	{
 		return updateEmployee(id, (employee) -> {
-			updateCollection(employee, employee.getCompany(), newCompany, employeesCompany);
-			employee.setCompany(newCompany);
+			removeEmployee(id);
+			addEmployee(factory.replaceCompany(employee, newCompany));
 		});
 	}
 
@@ -52,8 +55,8 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 	public EmployeesReturnCodes updateSalary(long id, int newSalary)
 	{
 		return updateEmployee(id, (employee) -> {
-			updateCollection(employee, employee.getSalary(), newSalary, employeesSalary);
-			employee.setSalary(newSalary);
+			removeEmployee(id);
+			addEmployee(factory.replaceSalary(employee, newSalary));
 		});
 	}
 
@@ -120,12 +123,6 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 		List<Employee> list = collection.getOrDefault(key, new ArrayList<>());
 		list.add(employee);
 		collection.putIfAbsent(key, list);
-	}
-
-	private <T> void updateCollection(Employee employee, T oldKey, T newKey, Map<T, List<Employee>> collection)
-	{
-		removeFromCollection(employee, oldKey, collection);
-		addToCollection(employee, newKey, collection);
 	}
 
 	@FunctionalInterface
