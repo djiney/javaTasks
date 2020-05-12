@@ -1,6 +1,8 @@
 package telran.lessons._28.dto;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class Employee
 {
@@ -59,6 +61,6 @@ public class Employee
 
 	public int getAge()
 	{
-		return LocalDate.now().getYear() - birthYear.getYear();
+		return (int) ChronoUnit.YEARS.between(birthYear, LocalDate.now());
 	}
 }
