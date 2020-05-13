@@ -19,19 +19,15 @@ public class Main
 			return false;
 		}
 
+		if (anagram.length() != string.length()) {
+			return false;
+		}
+
 		Map<Character, Integer> stringMap = getCharactersMap(string);
-		int count;
 
 		for (Character character : anagram.toCharArray()) {
-			if (!stringMap.containsKey(character)) {
+			if (stringMap.merge(character, 1, (prev, one) -> prev - one) < 0) {
 				return false;
-			}
-
-			count = stringMap.get(character) - 1;
-			if (count > 0) {
-				stringMap.put(character, count);
-			} else {
-				stringMap.remove(character);
 			}
 		}
 
