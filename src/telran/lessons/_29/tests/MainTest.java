@@ -21,5 +21,6 @@ class MainTest
 		assertFalse(Main.isAnagram(null, word));
 		assertFalse(Main.isAnagram(null, null));
 		assertFalse(Main.isAnagram(word, "dwelloy"));
+		assertFalse(Main.isAnagram(word, "wellol"));
 	}
 }
