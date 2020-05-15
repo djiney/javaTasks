@@ -26,7 +26,7 @@ public class Main
 		Map<Character, Integer> stringMap = getCharactersMap(string);
 
 		for (Character character : anagram.toCharArray()) {
-			if (stringMap.merge(character, 1, (prev, one) -> prev - one) < 0) {
+			if (stringMap.compute(character, (k, v) -> v == null ? null : --v) == null) {
 				return false;
 			}
 		}
