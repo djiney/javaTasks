@@ -31,7 +31,7 @@ public class Main
 		new Random()
 			.ints(0, array.length)
 			.distinct()
-			.limit(10)
+			.limit(array.length)
 			.forEach(i -> System.out.println(array[i]));
 	}
 
