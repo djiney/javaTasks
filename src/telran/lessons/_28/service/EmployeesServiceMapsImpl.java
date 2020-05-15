@@ -6,6 +6,7 @@ import telran.lessons._28.dto.EmployeesReturnCodes;
 import telran.lessons._28.factories.EmployeeFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmployeesServiceMapsImpl implements EmployeesService
 {
@@ -92,12 +93,11 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 
 	private Iterable<Employee> collectFromSubMap(SortedMap<Integer, List<Employee>> subMap)
 	{
-		Set<Employee> result = new HashSet<>();
-		for (List<Employee> list : subMap.values()) {
-			result.addAll(list);
-		}
-
-		return result;
+		return subMap
+			.values()
+			.stream()
+			.flatMap(Collection::stream)
+			.collect(Collectors.toSet());
 	}
 
 	private EmployeesReturnCodes updateEmployee(long id, UpdateEmployee callback)

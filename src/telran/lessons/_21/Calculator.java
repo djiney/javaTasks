@@ -2,8 +2,23 @@ package telran.lessons._21;
 
 import telran.lessons._20.RegularExpressions;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BinaryOperator;
+
 public class Calculator
 {
+	private static final Map<String, BinaryOperator<Double>> map;
+
+	static {
+		map = new HashMap<>();
+
+		map.put("/", (value, number) -> value / number);
+		map.put("*", (value, number) -> value * number);
+		map.put("+", Double::sum);
+		map.put("-", (value, number) -> value - number);
+	}
+
 	static public double calculate(String expression)
 	{
 		if (!expression.matches(RegularExpressions.arithmeticExpression())) {
@@ -28,18 +43,7 @@ public class Calculator
 
 	private static double calculate(double value, double number, String operation)
 	{
-		switch (operation) {
-			case "/":
-				return value / number;
-			case "*":
-				return value * number;
-			case "+":
-				return value + number;
-			case "-":
-				return value - number;
-			default:
-				return Double.NaN;
-		}
+		return map.getOrDefault(operation, (v, n) -> Double.NaN).apply(value, number);
 	}
 
 	public static boolean checkParenthesis(String expression)
