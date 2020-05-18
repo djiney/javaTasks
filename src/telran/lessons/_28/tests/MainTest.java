@@ -9,6 +9,8 @@ import telran.lessons._28.service.EmployeesServiceMapsImpl;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,6 +45,21 @@ public class MainTest
 	void testAdd()
 	{
 		assertEquals(EmployeesReturnCodes.EMPLOYEE_ALREADY_EXISTS, service.addEmployee(rina));
+	}
+
+	@Test
+	void testGroupSalary()
+	{
+		Map<String, List<Employee>> map = service.getEmployeesGroupedBySalary(1000);
+		assertTrue(map.containsKey("20000 - 20999"));
+		assertEquals(1, map.get("20000 - 20999").size());
+
+		map = service.getEmployeesGroupedBySalary(80000);
+		assertTrue(map.containsKey("0 - 79999"));
+		assertEquals(7, map.get("0 - 79999").size());
+
+		assertTrue(map.containsKey("80000 - 159999"));
+		assertEquals(1, map.get("80000 - 159999").size());
 	}
 
 	@Test

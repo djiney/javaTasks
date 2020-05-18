@@ -94,7 +94,29 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 	@Override
 	public Map<String, List<Employee>> getEmployeesGroupedBySalary(int interval)
 	{
-		return null;
+		return employees.values().stream()
+			.collect(Collectors.groupingBy(v -> getInterval(interval, v.getSalary())))
+			.entrySet().stream()
+			.sorted((entry1, entry2) -> {
+				String key1 = entry1.getKey(), key2 = entry2.getKey();
+				if (key1.length() != key2.length()) {
+					return key1.length() - key2.length();
+				}
+
+				return key1.compareTo(key2);
+			})
+			.collect(Collectors.toMap(
+				Map.Entry::getKey,
+				Map.Entry::getValue,
+				(o1, o2) -> o1,
+				LinkedHashMap::new
+			));
+	}
+
+	private String getInterval(int interval, long salary)
+	{
+		long remainder = salary % interval;
+		return String.format("%d - %d", salary - remainder, salary + interval - remainder - 1);
 	}
 
 	private Iterable<Employee> collectFromSubMap(SortedMap<Integer, List<Employee>> subMap)
