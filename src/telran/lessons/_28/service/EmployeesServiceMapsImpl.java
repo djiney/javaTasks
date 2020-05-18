@@ -97,14 +97,11 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 		return employees.values().stream()
 			.collect(Collectors.groupingBy(v -> getInterval(interval, v.getSalary())))
 			.entrySet().stream()
-			.sorted((entry1, entry2) -> {
-				String key1 = entry1.getKey(), key2 = entry2.getKey();
-				if (key1.length() != key2.length()) {
-					return key1.length() - key2.length();
-				}
-
-				return key1.compareTo(key2);
-			})
+			.sorted(
+				(e1, e2) -> Comparator
+					.comparing(String::length)
+					.thenComparing(String::compareTo).compare(e1.getKey(), e2.getKey())
+			)
 			.collect(Collectors.toMap(
 				Map.Entry::getKey,
 				Map.Entry::getValue,
