@@ -20,10 +20,11 @@ public class Main
 	{
 		Arrays.stream(data)
 			.boxed()
-			.map(n -> Integer.toString(n)
-				.chars()
-				.boxed()
-				.collect(Collectors.groupingBy(Character::toString, Collectors.counting()))
+			.map(
+				n -> Integer.toString(n)
+					.chars()
+					.boxed()
+					.collect(Collectors.groupingBy(Character::toString, Collectors.counting()))
 			)
 			.flatMap(n -> n.entrySet().stream())
 			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Long::sum))
