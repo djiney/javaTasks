@@ -91,6 +91,12 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 		return collectFromSubMap(employeesSalary.subMap(salaryFrom, salaryTo));
 	}
 
+	@Override
+	public Map<String, List<Employee>> getEmployeesGroupedBySalary(int interval)
+	{
+		return null;
+	}
+
 	private Iterable<Employee> collectFromSubMap(SortedMap<Integer, List<Employee>> subMap)
 	{
 		return subMap
