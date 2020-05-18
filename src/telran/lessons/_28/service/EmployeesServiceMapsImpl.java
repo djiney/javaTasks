@@ -100,7 +100,8 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 			.sorted(
 				(e1, e2) -> Comparator
 					.comparing(String::length)
-					.thenComparing(String::compareTo).compare(e1.getKey(), e2.getKey())
+					.thenComparing(String::compareTo)
+					.compare(e1.getKey(), e2.getKey())
 			)
 			.collect(Collectors.toMap(
 				Map.Entry::getKey,
