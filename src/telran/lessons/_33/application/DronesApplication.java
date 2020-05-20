@@ -25,7 +25,9 @@ public class DronesApplication
 		setUpHeights();
 
 		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
+			preCycle();
 			cycle();
+			postCycle();
 		}
 
 		landAll();
@@ -48,8 +50,6 @@ public class DronesApplication
 
 	private void cycle()
 	{
-		preCycle();
-
 		for (Height height : heights) {
 			if (height.isBusy()) {
 				continue;
@@ -62,8 +62,6 @@ public class DronesApplication
 
 			drone.takeOff(height, calcDuration());
 		}
-
-		postCycle();
 	}
 
 	private int calcDuration()
