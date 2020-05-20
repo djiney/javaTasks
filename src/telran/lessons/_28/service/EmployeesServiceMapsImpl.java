@@ -95,20 +95,15 @@ public class EmployeesServiceMapsImpl implements EmployeesService
 	public Map<String, List<Employee>> getEmployeesGroupedBySalary(int interval)
 	{
 		return employees.values().stream()
-			.collect(Collectors.groupingBy(v -> getInterval(interval, v.getSalary())))
-			.entrySet().stream()
-			.sorted(
-				(e1, e2) -> Comparator
-					.comparing(String::length)
-					.thenComparing(String::compareTo)
-					.compare(e1.getKey(), e2.getKey())
-			)
-			.collect(Collectors.toMap(
-				Map.Entry::getKey,
-				Map.Entry::getValue,
-				(o1, o2) -> o1,
-				LinkedHashMap::new
-			));
+			.collect(
+				Collectors.groupingBy(
+					v -> getInterval(interval, v.getSalary()),
+					() -> new TreeMap<>(Comparator
+						.comparing(String::length)
+						.thenComparing(String::compareTo)),
+					Collectors.toList()
+				)
+			);
 	}
 
 	private String getInterval(int interval, long salary)
