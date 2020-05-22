@@ -6,11 +6,25 @@ import telran.lessons._33.components.Height;
 
 public class DronesTestApplication extends DronesApplication
 {
+	private int totalPassengers = 0;
+	private int totalFlights = 0;
+
 	public void test()
 	{
 		run();
 
-		int totalPassengers = 0;
+		testDrones();
+		testHeights();
+
+		if (totalFlights != totalPassengers) {
+			throw new RuntimeException("Flights count and passengers transferred counters do not match");
+		}
+
+		System.out.println("All tests passed");
+	}
+
+	private void testDrones()
+	{
 		for (Drone drone : drones) {
 			totalPassengers += drone.getPassengersCount();
 			if (drone.getFlightTime() + drone.getLandedTime() != ITERATIONS_NUMBER) {
@@ -21,8 +35,10 @@ public class DronesTestApplication extends DronesApplication
 				throw new RuntimeException("Drones are still in the air");
 			}
 		}
+	}
 
-		int totalFlights = 0;
+	private void testHeights()
+	{
 		for (Height height : heights) {
 			if (height.isBusy()) {
 				throw new RuntimeException("Height is still busy");
@@ -30,11 +46,5 @@ public class DronesTestApplication extends DronesApplication
 
 			totalFlights += height.getFlightsCount();
 		}
-
-		if (totalFlights != totalPassengers) {
-			throw new RuntimeException("Flights count and passengers transferred counters do not match");
-		}
-
-		System.out.println("All tests passed");
 	}
 }
