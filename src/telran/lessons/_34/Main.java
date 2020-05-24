@@ -42,8 +42,6 @@ public class Main
 				"Custom, buffer: " + formatSize(), runsAmount, Main::customMethod
 			).run();
 		}
-
-		Files.deleteIfExists(Paths.get(COPY_FILE));
 	}
 
 	private static String formatSize()
@@ -64,6 +62,8 @@ public class Main
 
 	private static void standardMethod() throws IOException
 	{
+		Files.deleteIfExists(Paths.get(COPY_FILE));
+
 		Path src = Paths.get(SOURCE_FILE);
 		Path dst = Paths.get(COPY_FILE);
 
@@ -72,6 +72,8 @@ public class Main
 
 	private static void customMethod() throws IOException
 	{
+		Files.deleteIfExists(Paths.get(COPY_FILE));
+
 		InputStream input = Files.newInputStream(Paths.get(SOURCE_FILE));
 		OutputStream output = new FileOutputStream(COPY_FILE);
 
