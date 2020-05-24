@@ -2,8 +2,8 @@ package telran.lessons._19_0.tests;
 
 public abstract class PerformanceTest
 {
-	private String testName;
-	private Integer runsAmount;
+	private final String testName;
+	private final Integer runsAmount;
 
 	public PerformanceTest(String testName, Integer runsAmount) {
 		this.testName = testName;
