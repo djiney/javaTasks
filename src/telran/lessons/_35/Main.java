@@ -9,7 +9,10 @@ public class Main
 	public static void main(String[] args) throws FileNotFoundException
 	{
 		Game game = new Game();
-//		game.enableDebug();
+		if (args.length > 0) {
+			game.enableDebug();
+		}
+
 		game.play();
 	}
 }
