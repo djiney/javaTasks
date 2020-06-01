@@ -1,9 +1,8 @@
 package telran.lessons._35.components;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
-public class Game
+public abstract class Game
 {
 	static final int NUMBER_LENGTH = 4;
 
@@ -23,18 +22,7 @@ public class Game
 		debug = true;
 	}
 
-	public void play() throws FileNotFoundException
-	{
-		generateNumber();
-		logger.setNumberValue(getNumberValue(), debug);
-
-		scan();
-
-		logger.logResults();
-		logger.save();
-	}
-
-	private void generateNumber()
+	protected void generateNumber()
 	{
 		new Random().ints(1, 10)
 			.distinct()
@@ -42,7 +30,7 @@ public class Game
 			.forEach(n -> numberMap.put(n, numberMap.size()));
 	}
 
-	private String getNumberValue()
+	protected String getNumberValue()
 	{
 		StringBuilder result = new StringBuilder();
 		numberMap.entrySet().stream()
@@ -52,17 +40,7 @@ public class Game
 		return result.toString();
 	}
 
-	private void scan()
-	{
-		Scanner scanner = new Scanner(System.in);
-
-		while (!isSolved()) {
-			logger.printMessage();
-			process(scanner.nextLine());
-		}
-	}
-
-	private void process(String value)
+	protected void process(String value)
 	{
 		int number, position;
 		LogEntry entry = new LogEntry(value);
@@ -92,7 +70,7 @@ public class Game
 		}
 	}
 
-	private boolean isSolved()
+	protected boolean isSolved()
 	{
 		return solved;
 	}
