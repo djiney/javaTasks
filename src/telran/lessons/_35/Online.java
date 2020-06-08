@@ -2,14 +2,13 @@ package telran.lessons._35;
 
 import telran.lessons._35.components.OnlineGame;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class Online
 {
-	public static void main(String[] args) throws FileNotFoundException
+	public static void main(String[] args)
 	{
 		OnlineGame game = new OnlineGame();
 		game.enableDebug();
@@ -19,9 +18,8 @@ public class Online
 
 		do {
 			value = getRandomGuess();
-		} while (!game.guess(value));
-
-		game.endGame();
+			game.move(value);
+		} while (!game.isFinished());
 	}
 
 	private static String getRandomGuess()

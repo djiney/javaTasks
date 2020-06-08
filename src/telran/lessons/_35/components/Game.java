@@ -70,7 +70,7 @@ public abstract class Game
 		}
 	}
 
-	protected boolean isSolved()
+	public boolean isSolved()
 	{
 		return solved;
 	}

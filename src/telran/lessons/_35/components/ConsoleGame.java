@@ -1,11 +1,10 @@
 package telran.lessons._35.components;
 
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class ConsoleGame extends Game
 {
-	public void play() throws FileNotFoundException
+	public void play()
 	{
 		generateNumber();
 		logger.setNumberValue(getNumberValue(), debug);
@@ -21,7 +20,7 @@ public class ConsoleGame extends Game
 		Scanner scanner = new Scanner(System.in);
 
 		while (!isSolved()) {
-			logger.printMessage();
+			logger.prompt();
 			process(scanner.nextLine());
 		}
 	}

@@ -1,26 +1,47 @@
 package telran.lessons._35.components;
 
-import java.io.FileNotFoundException;
+import telran.lessons._37.interfaces.GuessGame;
 
-public class OnlineGame extends Game
+public class OnlineGame extends Game implements GuessGame
 {
-	public void startGame()
+	@Override
+	public String startGame()
 	{
+		solved = false;
+
 		generateNumber();
-		logger.setNumberValue(getNumberValue(), debug);
+		String value = getNumberValue();
+
+		logger = new Logger(true);
+		logger.setNumberValue(value, false);
+
+		System.out.println("New game initiated: " + value);
+
+		return value;
 	}
 
-	public boolean guess(String value)
+	@Override
+	public String prompt()
 	{
-		logger.printMessage();
+		return logger.prompt();
+	}
+
+	@Override
+	public String move(String value)
+	{
 		process(value);
 
-		return isSolved();
+		if (isSolved()) {
+			logger.logResults();
+			logger.save();
+		}
+
+		return logger.peak();
 	}
 
-	public void endGame() throws FileNotFoundException
+	@Override
+	public boolean isFinished()
 	{
-		logger.logResults();
-		logger.save();
+		return isSolved();
 	}
 }
